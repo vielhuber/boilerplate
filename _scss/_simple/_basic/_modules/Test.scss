@@ -1,24 +1,27 @@
+@use "../_assorted/common";
+@use "../_config/vars";
+
 .test {
     /* interpolate */
-    width: calc(66.66% - 2 * #{$space-medium});
+    width: calc(66.66% - 2 * #{vars.$space-medium});
 }
 
 .title {
     /* always use this approach to handle common styles (include the common style in every place needed) */
-    @include title;
+    @include common.title;
 }
 
 .bar1 {
     /* variables as properties (they cannot change via media queries) */
-    padding:$space-medium;
+    padding:vars.$space-medium;
 }
 
 .mixin-test {
     /* "dynamic" variables */
-    @include padding;
+    @include common.padding;
 }
 
-@include responsive-medium {
+@include common.responsive-medium {
     .test {
     }
 }

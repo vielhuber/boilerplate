@@ -1,13 +1,13 @@
-@import '_immutable/_reset';
-@import '_config/_vars';
-@import '_assorted/_common';
-@import '_immutable/_rem';
-@import '_immutable/_base';
-@import '_assorted/_fonts';
-@import '_assorted/_print';
-@import '_assorted/_scrollbars';
-@import '_modules/Test';
-@import '_assorted/_utilities';
+@use '_immutable/_reset';
+@use '_config/_vars';
+@use '_assorted/_common';
+@use '_immutable/_rem';
+@use '_immutable/_base';
+@use '_assorted/_fonts';
+@use '_assorted/_print';
+@use '_assorted/_scrollbars';
+@use '_modules/Test';
+@use '_assorted/_utilities';
 
 // another way to import external library css (in this example katex.min.css)
 //@import './node_modules/katex/dist/katex.min';

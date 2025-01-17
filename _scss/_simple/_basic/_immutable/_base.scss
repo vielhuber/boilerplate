@@ -1,3 +1,5 @@
+@use "../_config/vars";
+
 *,
 *:before,
 *:after {
@@ -7,7 +9,7 @@
 html,
 body {
     width: 100%;
-    background-color: $color-white;
+    background-color: vars.$color-white;
 }
 
 html {
@@ -52,7 +54,7 @@ button,
 input,
 select,
 textarea {
-    color: $color-grey;
+    color: vars.$color-grey;
     font-weight: normal;
     line-height: 1.4;
 }
@@ -71,7 +73,7 @@ textarea {
     outline: none;
 }
 *:focus-visible {
-    outline: 4px dashed $color-greenlight;
+    outline: 4px dashed vars.$color-greenlight;
     outline-offset: 3px;
 }
 
@@ -83,8 +85,8 @@ input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:active,
 input:-webkit-autofill:focus {
-    -webkit-box-shadow: 0 0 0 100px $color-white inset !important;
-    -webkit-text-fill-color: $color-grey !important;
+    -webkit-box-shadow: 0 0 0 100px vars.$color-white inset !important;
+    -webkit-text-fill-color: vars.$color-grey !important;
 }
 
 input[type='submit'],
@@ -106,7 +108,7 @@ input {
 }
 
 select {
-    background-color: $color-white;
+    background-color: vars.$color-white;
 }
 
 select::-ms-expand {
@@ -138,7 +140,7 @@ i {
 
 small {
     display: block;
-    font-size: $font-size-small;
+    font-size: vars.$font-size-small;
 }
 
 pre {
@@ -155,27 +157,27 @@ img {
 }
 
 ::selection {
-    background: $color-greenlight;
-    color: $color-white;
+    background: vars.$color-greenlight;
+    color: vars.$color-white;
 }
 
 ::-moz-selection {
-    background: $color-greenlight;
-    color: $color-white;
+    background: vars.$color-greenlight;
+    color: vars.$color-white;
 }
 
 ::-webkit-selection {
-    background: $color-greenlight;
-    color: $color-white;
+    background: vars.$color-greenlight;
+    color: vars.$color-white;
 }
 
 ::placeholder {
-    color: $color-grey;
+    color: vars.$color-grey;
     opacity: 1;
 }
 
 ::-ms-input-placeholder {
-    color: $color-grey;
+    color: vars.$color-grey;
 }
 
 :invalid {

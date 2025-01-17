@@ -1,3 +1,5 @@
+@use "../_config/vars";
+
 @mixin clearfix {
     &:after {
         clear: both;
@@ -40,7 +42,7 @@
         display: inline-block;
         vertical-align: middle;
         width: 100%;
-        font-size: $font-size-medium;
+        font-size: vars.$font-size-medium;
         white-space: normal;
     }
 }
@@ -48,14 +50,14 @@
 /* you also can include subclasses */
 @mixin content {
     h2 {
-        font-size: $font-size-big;
-        margin-bottom: $space-medium;
+        font-size: vars.$font-size-big;
+        margin-bottom: vars.$space-medium;
     }
     strong {
         font-weight: bold;
     }
     p {
-        margin-bottom: $space-medium;
+        margin-bottom: vars.$space-medium;
     }
     *:last-child {
         margin-bottom: 0;
@@ -63,26 +65,26 @@
 }
 
 @mixin responsive-big {
-    @media screen and (max-width: $breakpoint-big) {
+    @media screen and (max-width: vars.$breakpoint-big) {
         @content;
     }
 }
 
 @mixin responsive-medium {
-    @media screen and (max-width: $breakpoint-medium) {
+    @media screen and (max-width: vars.$breakpoint-medium) {
         @content;
     }
 }
 
 @mixin responsive-small {
-    @media screen and (max-width: $breakpoint-small) {
+    @media screen and (max-width: vars.$breakpoint-small) {
         @content;
     }
 }
 
 /* you can achieve "dynamic variables" that change on viewports */
 @mixin padding {
-    padding:$space-big;
-    @include responsive-medium { padding: $space-medium; }
-    @include responsive-small { padding: $space-small; }
+    padding:vars.$space-big;
+    @include responsive-medium { padding: vars.$space-medium; }
+    @include responsive-small { padding: vars.$space-small; }
 }

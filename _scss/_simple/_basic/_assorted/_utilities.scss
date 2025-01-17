@@ -1,9 +1,11 @@
+@use "../_config/vars";
+
 .is-hidden {
     display: none;
 }
 
 .is-highlighted {
-    color: $color-orangelight;
+    color: vars.$color-orangelight;
     font-weight: 500;
 }
 
@@ -12,7 +14,7 @@
     opacity: 0.5;
     pointer-events: none;
     cursor: default;
-    background-color: $color-grey;
+    background-color: vars.$color-grey;
 }
 
 [disabled][title] {
@@ -21,7 +23,7 @@
 
 .is-readonly,
 [readonly] {
-    background-color: $color-grey;
+    background-color: vars.$color-grey;
 }
 
 .is-fullwidth {

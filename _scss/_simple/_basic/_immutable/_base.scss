@@ -77,6 +77,10 @@ textarea {
     outline-offset: 3px;
 }
 
+[contenteditable]:focus {
+    outline: none;
+}
+
 ::-moz-focus-inner {
     border: 0;
 }

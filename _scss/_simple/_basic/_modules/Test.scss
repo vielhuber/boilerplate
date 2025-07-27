@@ -19,6 +19,8 @@
 .mixin-test {
     /* "dynamic" variables */
     @include common.padding;
+    /* custom cursor */
+    @include common.cursor(pointer);
 }
 
 @include common.responsive-medium {

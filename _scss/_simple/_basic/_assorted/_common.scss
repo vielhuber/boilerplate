@@ -88,3 +88,29 @@
     @include responsive-medium { padding: vars.$space-medium; }
     @include responsive-small { padding: vars.$space-small; }
 }
+
+@mixin cursor($type, $important: false) {
+    $cursor-value: default;
+    @if $type == default {
+        $cursor-value:
+            image-set(url('../_assets/cursor-default.png') 1x, url('../_assets/cursor-default@2x.png') 2x) 8 8,
+            default;
+    } @else if $type == pointer {
+        $cursor-value:
+            image-set(url('../_assets/cursor-pointer.png') 1x, url('../_assets/cursor-pointer@2x.png') 2x) 10 6,
+            pointer;
+    } @else if $type == text {
+        $cursor-value:
+            image-set(url('../_assets/cursor-text.png') 1x, url('../_assets/cursor-text@2x.png') 2x) 15 16,
+            text;
+    } @else if $type == wait {
+        $cursor-value:
+            image-set(url('../_assets/cursor-wait.png') 1x, url('../_assets/cursor-wait@2x.png') 2x) 8 8,
+            none;
+    }
+    @if $important {
+        cursor: #{$cursor-value} !important;
+    } @else {
+        cursor: #{$cursor-value};
+    }
+}

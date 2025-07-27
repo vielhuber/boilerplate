@@ -1,0 +1,20 @@
+@use 'common';
+
+html {
+    @include common.cursor(default);
+}
+
+html.loading,
+html.loading * {
+    @include common.cursor(wait, true);
+}
+
+a {
+    @include common.cursor(pointer);
+}
+
+input,
+textarea,
+[contenteditable='true'] {
+    @include common.cursor(text);
+}

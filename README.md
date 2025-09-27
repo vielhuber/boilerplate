@@ -39,6 +39,7 @@ unzip master.zip -d .
 mv boilerplate-master/{.[!.],}* .
 rm -r boilerplate-master master.zip README.md
 cp .env.example .env
+nvm use --lts
 npm install
 ```
 

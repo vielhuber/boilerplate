@@ -146,6 +146,6 @@
     "version": "42.0.0",
     "description": "",
     "main": "$npm_package_config_build_folder/bundle.js",
-    "author": "",
-    "license": "ISC"
+    "author": "David <david@vielhuber.de> (https://vielhuber.de)",
+    "license": "UNLICENSED"
 }

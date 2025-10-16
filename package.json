@@ -57,14 +57,14 @@
         "update-changelog": "echo \"⏳\" && auto-changelog --commit-limit false --package && echo \"✅\"",
         "                                                                                                                                                                                                          ": "",
         "🔽 pipelines 🔽": "",
-        "prod:verbose": "cross-env NODE_ENV=production npm-run-all --print-label --silent --sequential css:slim js:slim",
-        "dev:verbose": "cross-env NODE_ENV=development npm-run-all --print-label --silent --parallel css:slim:watch js:slim:watch browsersync",
-        "prod:full:verbose": "cross-env NODE_ENV=production npm-run-all --print-label --silent --sequential copy css js html delete:files",
-        "dev:full:verbose": "cross-env NODE_ENV=development npm-run-all --print-label --silent --parallel copy:watch css:watch js:watch js:tests:watch html:watch browsersync",
-        "prod": "npm run prod:verbose -s",
-        "dev": "npm run dev:verbose -s",
-        "prod:full": "npm run prod:full:verbose -s",
-        "dev:full": "npm run dev:full:verbose -s"
+        "prod:⚡": "cross-env NODE_ENV=production npm-run-all --print-label --silent --sequential css:slim js:slim",
+        "dev:⚡": "cross-env NODE_ENV=development npm-run-all --print-label --silent --parallel css:slim:watch js:slim:watch browsersync",
+        "prod:full:⚡": "cross-env NODE_ENV=production npm-run-all --print-label --silent --sequential copy css js html delete:files",
+        "dev:full:⚡": "cross-env NODE_ENV=development npm-run-all --print-label --silent --parallel copy:watch css:watch js:watch js:tests:watch html:watch browsersync",
+        "prod": "npm run prod:⚡ -s",
+        "dev": "npm run dev:⚡ -s",
+        "prod:full": "npm run prod:full:⚡ -s",
+        "dev:full": "npm run dev:full:⚡ -s"
     },
     "devDependencies": {
         "@babel/cli": "^7.28.3",

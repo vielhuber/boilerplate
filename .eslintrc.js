@@ -8,8 +8,11 @@ module.exports = {
     },
     extends: 'eslint:recommended',
     parserOptions: {
-        ecmaVersion: 2021,
-        sourceType: 'module'
+        ecmaVersion: 2022,
+        sourceType: 'module',
+        ecmaFeatures: {
+            classes: true
+        }
     },
     rules: {
         quotes: ['error', 'single', { allowTemplateLiterals: true }],

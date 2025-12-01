@@ -46,6 +46,19 @@
     }
     .responsive-typography {
         /* see _rem.scss */
+        $font-size-medium: 16rem;
+        font-size: calc(clamp(0.03125rem, 0.025rem + 0.0313vw, 0.0625rem) * var(--zoom-factor, 1));
+        @media (min-width: 1920px) {
+            & {
+                font-size: calc(clamp(0.0625rem, -0.0208rem + 0.0694vw, 0.3125rem) * var(--zoom-factor, 1));
+            }
+        }
+        body,
+        td,
+        th,
+        button {
+            font-size: $font-size-medium;
+        }
     }
     .responsive-typography_legacy {
         $rem_font_size_small: 8;

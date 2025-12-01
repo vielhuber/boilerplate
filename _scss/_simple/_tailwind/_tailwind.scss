@@ -45,18 +45,7 @@
         }
     }
     .responsive-typography {
-        /* generated with https://clamp.font-size.app/ */
-
-        /* 0-1920px */
-        /* (min: 320px / 8px, max: 1920px / 18px) */
-        font-size: clamp(0.5rem, 0.375rem + 0.625vw, 1.125rem);
-        @media (min-width: 1920px) {
-            & {
-                /* 1920px-7680px */
-                /* (min: 1920px / 18px, max: 7680px / 74px) */
-                font-size: clamp(1.125rem, -0.5833rem + 1.4236vw, 6.25rem);
-            }
-        }
+        /* see _rem.scss */
     }
     .responsive-typography_legacy {
         $rem_font_size_small: 8;
@@ -69,9 +58,8 @@
         @media ( min-width: #{$rem_breakpoint_small}px ) {
             & {
                 font-size: calc(
-                    #{$rem_font_size_small}px + #{$rem_font_size_big - $rem_font_size_small} * (
-                            100vw - #{$rem_breakpoint_small}px
-                        ) / #{$rem_breakpoint_big - $rem_breakpoint_small}
+                    #{$rem_font_size_small}px + #{$rem_font_size_big - $rem_font_size_small} *
+                        (100vw - #{$rem_breakpoint_small}px) / #{$rem_breakpoint_big - $rem_breakpoint_small}
                 );
             }
         }

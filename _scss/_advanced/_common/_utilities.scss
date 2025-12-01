@@ -32,8 +32,7 @@
     }
 
     .responsive-typography {
-        /* generated with https://clamp.font-size.app/ (min: 320px / 8px, max: 7680px / 54px) */
-        font-size: clamp(0.5rem, 0.375rem + 0.625vw, 3.375rem);
+        /* see _rem.scss */
     }
 
     .responsive-typography_legacy {
@@ -47,9 +46,8 @@
         @media ( min-width: #{$rem_breakpoint_small}px ) {
             & {
                 font-size: calc(
-                    #{$rem_font_size_small}px + #{$rem_font_size_big - $rem_font_size_small} * (
-                            100vw - #{$rem_breakpoint_small}px
-                        ) / #{$rem_breakpoint_big - $rem_breakpoint_small}
+                    #{$rem_font_size_small}px + #{$rem_font_size_big - $rem_font_size_small} *
+                        (100vw - #{$rem_breakpoint_small}px) / #{$rem_breakpoint_big - $rem_breakpoint_small}
                 );
             }
         }

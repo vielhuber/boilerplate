@@ -1,15 +1,22 @@
 @use '../_config/vars';
 
-/* generated with https://clamp.font-size.app/ */
+/* inspired by https://clamp.font-size.app/ */
 html {
     /* 0-1920px */
     /* (min: 320px / 0.5px, max: 1920px / 1px) */
+    /*
     font-size: clamp(0.03125rem, 0.025rem + 0.0313vw, 0.0625rem);
-    @media (min-width: 1920px) {
+    */
+    /* this supports zoom */
+    font-size: clamp(0.001%, 6.12% + 0.0063vw, 6.875%);
+    @media (min-width: 1921px) {
         & {
             /* 1920px-7680px */
             /* (min: 1920px / 1px, max: 7680px / 5px) */
+            /*
             font-size: clamp(0.0625rem, -0.0208rem + 0.0694vw, 0.3125rem);
+            */
+            font-size: clamp(6.875%, -0.78% + 0.0677vw, 100%);
         }
     }
 }

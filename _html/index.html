@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="de" class="font-custom text-black bg-white responsive-typography selection-color scrollbar hyphenate">
     <head>
         <meta charset="utf-8" />
@@ -7,6 +7,16 @@
         <title>boilerplate</title>
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
         <link data-inline rel="stylesheet" href="/bundle.css" />
+        <script>
+            let setZoomFactor = () => {
+                document.documentElement.style.setProperty(
+                    '--zoom-factor',
+                    Math.round((window.screen.width / window.innerWidth) * 100) / 100
+                );
+            };
+            setZoomFactor();
+            window.addEventListener('resize', setZoomFactor);
+        </script>
     </head>
     <body>
         <header>

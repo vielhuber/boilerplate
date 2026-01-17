@@ -1,455 +1,775 @@
-# AGENTS.md - AI Agent Guide for Boilerplate Project
+---
+applyTo: '**'
+---
 
-## Project Overview
+- Always answer in German and with a robot emoji 🤖 at the end.
 
-This is a modern frontend boilerplate starter kit for rapid web development based on npm scripts. The project provides a comprehensive build pipeline with automated workflows for CSS, JavaScript, HTML processing, and testing.
+### code comments
 
-### Technology Stack
+```php
+// bad
+// Dies ist ein Kommentar auf Deutsch
 
-- **Bundler**: Vite (modern ES module bundler)
-- **Legacy Bundler**: Browserify (available but not used by default)
-- **Transpiler**: Babel (ES6+ to ES5)
-- **CSS Preprocessor**: Sass/SCSS with PostCSS pipeline
-- **CSS Framework**: Tailwind CSS v4
-- **Dev Server**: Browsersync (live reload proxy)
-- **Testing**: Jest with Puppeteer (unit/integration/regression)
-- **Code Quality**: ESLint, Prettier (JS, PHP support)
-- **Utilities**: hlp library for DOM manipulation
+// bad
+// This Is A Comment
 
-### Project Structure
-
-```
-/var/www/boilerplate/
-├── _assets/           # Static assets (fonts, images)
-├── _html/             # HTML source files
-├── _js/               # JavaScript source files
-│   ├── script.js      # Main entry point
-│   ├── Page.js        # Singleton classes
-│   ├── Navigation.js
-│   ├── Module.js      # Component classes
-│   └── RouteX.js
-├── _scss/             # Sass/SCSS source files
-│   ├── style.scss     # Main entry point
-│   ├── _basic/        # Base styles, variables, utilities
-│   └── _tailwind/     # Tailwind configuration
-├── _libs/             # External libraries (CSS/JS)
-├── _php/              # PHP files (copied to build)
-├── _tests/            # Test files
-│   └── _js/
-│       ├── unit/
-│       ├── integration/
-│       └── regression/
-├── _public/           # Build output directory
-└── package.json       # NPM configuration & scripts
+// good
+// this is a comment
 ```
 
-## Build Pipeline Architecture
+### prevent stfu operator
 
-### Module System
+```php
+// bad
+if(@$foo) {}
+if(@$_GET['foo']) {}
+if(__x($foo)) {}
+if(__x($foo->bar()->baz)) {}
 
-⚠️ **Important**: This project uses ES modules (`"type": "module"` in package.json)
-
-- All `.js` files are treated as ES modules
-- Use `import`/`export` syntax only
-- CommonJS files must use `.cjs` extension
-- Configuration files: `jest.config.cjs`, `jest-puppeteer.config.cjs`
-
-### CSS Pipeline
-
-The CSS pipeline processes Sass → PostCSS (Tailwind) → Autoprefixer → Critical CSS extraction:
-
-1. **`css:sass`** - Compiles Sass to CSS (compressed for prod, uncompressed for dev)
-2. **`css:postcss:tailwind`** - Applies Tailwind CSS transformations with cssnano
-3. **`css:postcss:autoprefixer`** - Adds vendor prefixes
-4. **`css:critical`** - Extracts critical above-the-fold CSS
-5. **`css:libs`** - Concatenates external library CSS files
-
-**Output**: `_public/bundle.css`, `_public/bundle-critical.css`
-
-**Watch mode**: Monitors `_scss/**/*.scss`, `_php/**/*.php` for changes
-
-### JavaScript Pipeline
-
-The JavaScript pipeline uses Vite for bundling with Babel for transpilation:
-
-1. **`js:vite`** - Bundles JS using Vite (replaces Browserify)
-    - Entry: `_js/script.js`
-    - Output: `_public/bundle.js`
-    - Sourcemaps enabled
-    - No minification (done separately)
-
-2. **`js:minify`** - Minifies bundle.js with Terser
-3. **`js:babel`** - Transpiles source files to `_public/_js/` for testing
-4. **`js:libs`** - Concatenates external library JS files
-5. **`js:tests`** - Runs Jest test suite
-
-**Legacy alternative**: Browserify commands (`js:browserify`, `js:browserify:none`, `js:browserify:global`) are still available but not used in the default pipeline.
-
-**Watch mode**: Monitors `_js/**/*.js`, `_libs/**/*.js` for changes
-
-### HTML Pipeline
-
-1. **`html:minify`** - Minifies HTML files (optional for dev)
-2. **`html:inline`** - Inlines critical CSS/JS marked with `data-inline` attribute
-
-**Watch mode**: Monitors `_html/**/*.html` for changes
-
-## NPM Scripts Guide
-
-### Main Pipelines
-
-- **`npm run dev`** → `dev:⚡` - Development mode with watchers
-    - Runs: `css:slim:watch`, `js:slim:watch`, `browsersync`
-    - Live reload on file changes
-    - Uncompressed builds for debugging
-
-- **`npm run prod`** → `prod:⚡` - Production build (slim)
-    - Runs: `css:slim`, `js:slim` (sequential)
-    - Minified CSS/JS bundles
-    - No HTML processing
-
-- **`npm run dev:full`** → `dev:full:⚡` - Full development mode
-    - Runs: `copy:watch`, `css:watch`, `js:watch`, `js:tests:watch`, `html:watch`, `browsersync`
-    - Includes asset copying, HTML processing, continuous testing
-
-- **`npm run prod:full`** → `prod:full:⚡` - Full production build
-    - Runs: `delete:files`, `copy`, `css`, `js`, `html` (sequential)
-    - Complete build including critical CSS, tests, HTML inlining
-
-### Individual Task Scripts
-
-All build tasks use `command time` for performance measurement:
-
-- Format: `echo "⏳" && command time -f "✅ (%es)" <command>`
-- Displays execution time in seconds after completion
-
-**CSS Tasks:**
-
-- `css:slim` - Quick CSS build (Sass + Tailwind + Autoprefixer)
-- `css` - Full CSS build (includes critical CSS + libs)
-- `css:sass[:dev]` - Sass compilation
-- `css:postcss:tailwind` - Tailwind processing
-- `css:postcss:autoprefixer` - Autoprefixer
-- `css:critical` - Critical CSS extraction (requires DOMAIN env var)
-- `css:libs` - Library concatenation
-
-**JS Tasks:**
-
-- `js:slim` - Quick JS build (Vite + minify)
-- `js` - Full JS build (includes Babel transpilation, libs, tests)
-- `js:vite` - Vite bundling
-- `js:minify` - Terser minification
-- `js:babel` - Babel transpilation to `_public/_js/`
-- `js:libs` - Library concatenation
-- `js:tests` - Jest test execution
-- `js:browserify` - Legacy Browserify build (not used in pipelines)
-- `js:browserify:none` - Browserify without Babel transforms
-- `js:browserify:global` - Browserify with global Babel transforms
-
-**HTML Tasks:**
-
-- `html` - Full HTML processing (minify + inline)
-- `html:minify[:dev]` - HTML minification
-- `html:inline` - Inline critical resources
-
-**Utility Tasks:**
-
-- `copy` - Copy assets from `_assets/` and `_php/` to `_public/`
-- `delete:files` - Clean build directory (keeps index.html, favicon.png, \_fonts/)
-- `prettier` - Format code with Prettier
-- `browsersync` - Start proxy server
-- `browsersync:reload` - Trigger reload
-- `browsersync:watch` - Watch mode with auto-reload
-
-## Configuration Files
-
-### Vite Configuration (`vite.config.js`)
-
-```javascript
-import { defineConfig } from 'vite';
-
-export default defineConfig({
-    build: {
-        outDir: '_public',
-        rollupOptions: {
-            input: './_js/script.js',
-            output: {
-                entryFileNames: 'bundle.js',
-                format: 'iife',
-                inlineDynamicImports: true
-            }
-        },
-        sourcemap: true,
-        minify: false, // Minification handled by Terser separately
-        emptyOutDir: false // Preserve other files in _public/
-    }
-});
+// good
+if(($foo??'') === '') {}
+if(($foo?->bar()?->baz??'') === '') {}
 ```
 
-### Babel Configuration (`.babelrc` or `babel.config.js`)
+### prevent static classes
 
-Babel is configured to transpile modern JS to ES5 for legacy browser support, including:
+```php
+// bad
+Example::calculate($obj)
 
-- `@babel/preset-env` - Smart ES6+ to ES5 transpilation
-- Polyfills for modern APIs
-- Transform plugins for class properties, optional chaining, private methods
-
-### Jest Configuration (`jest.config.cjs`)
-
-```javascript
-module.exports = {
-    automock: false,
-    preset: 'jest-puppeteer',
-    testMatch: ['**/_tests/_js/**/*.js?(x)'],
-    testTimeout: 60 * 1000,
-    testEnvironmentOptions: {
-        url: 'https://tld.com/?foo=bar&bar=baz'
-    },
-    transform: {} // Disables Babel transform conflicts with ES modules
-};
+// good
+(new Example($obj))->calculate()
 ```
 
-### Tailwind Configuration (`tailwind.config.js`)
+### prevent static arguments
 
-Tailwind v4 configuration with safelist patterns defined in `tailwind.safelist.txt`.
+```php
+// bad
+public static int $foo;
 
-### PostCSS Configuration (`postcss.config.js`)
+// good
+public int $foo;
+```
 
-Pipeline includes:
+### loop namings
 
-- `@tailwindcss/postcss` - Tailwind CSS processing
-- `autoprefixer` - Vendor prefixes
-- `cssnano` - CSS minification
+```php
+$countries = ['Europe' => 'Germany'];
 
-### Package.json Configuration
+// bad
+foreach($countries as $countries__key => $countries__value) { }
 
-```json
-{
-    "type": "module", // ES module mode
-    "config": {
-        "build_folder": "_public",
-        "critical_width": 1920,
-        "critical_height": 1080
+// good
+foreach($countries as $continent => $country) { }
+
+$dataToTest = [7, 42];
+
+// bad
+foreach($dataToTest as $dataToTest__value) { }
+
+// good
+foreach($dataToTest as $testValue) { }
+```
+
+### prevent abbreviations
+
+```php
+// bad
+$model->calc()
+
+// good
+$model->calculate()
+```
+
+### cases
+
+```php
+// camel case
+$variableFooBar
+function fooBarBaz() {}
+
+// pascal case
+class ExampleClass {}
+
+// snake case
+$variable_in_template
+Foo::first()->variable_from_db
+```
+
+### prevent arrays
+
+```php
+// bad
+exampleFunction(['foo' => 'bar', 'bar' => 'baz'])
+
+// good
+exampleFunction(foo: 'bar', bar: 'baz')
+```
+
+### prevent arrays (2)
+
+```php
+// bad
+$foo = (object) ['foo' => 'bar', 'bar' => 'baz']; // anonymous object with properties 'foo' and 'bar'
+
+// good
+$foo = (new Foo())->foo('bar')->bar('baz')->get(); // Foo object with properties 'foo' and 'bar'
+```
+
+### use classes / use getters / prevent arrays
+
+```php
+// bad
+$mapping = getMapping('test'); // ['foo' => 42, 'bar' => 7]
+
+// good
+$mapping = (new MappingGetter())->value('test')->get(); // Mapping object
+class Mapping {
+    public ?int $foo;
+    public ?int $bar;
+}
+class MappingGetter {
+    public string $value;
+    public function value($value) { $this->value = $value; return $this; }
+    public function get() {
+      $mapping = (new Mapping());
+      $mapping->foo = 42;
+      $mapping->bar = 7;
+      /* ... more logic ... */
+      return $mapping;
     }
 }
 ```
 
-## Testing
+### prevent monster classes / outsource in separate classes
 
-### Test Structure
+```php
+// bad
+$objectInBigModel->calculateSpecialValue();
 
-- **Unit tests** (`_tests/_js/unit/`) - Test individual functions/modules
-- **Integration tests** (`_tests/_js/integration/`) - Test component interactions
-- **Regression tests** (`_tests/_js/regression/`) - Visual regression with Puppeteer
 
-### Running Tests
-
-```bash
-npm run js:tests              # Run all tests once
-npm run js:tests:watch        # Watch mode for continuous testing
+// good
+(new SpecialValueCalculator($objectInBigModel))->calculate()
 ```
 
-### Test Example (ES Module)
+### use dtos
 
-```javascript
+- DTOs (Data Transfer Objects) are little "packages" that hold data meant to be moved around
+- the data is consistent, structured and typed
+- they improve IDE support
+
+```php
+// bad
+$userData = [
+    'id' => 42,
+    'name' => 'David',
+    'email' => 'david@vielhuber.de'
+];
+print_r($userData['id']); // 42
+
+// best (php >= 8.1)
+$userData = UserDTO::create(
+    42,
+    'David',
+    'david@vielhuber.de'
+);
+print_r($userData->id); // 42
+class UserDTO {
+    private function __construct(
+        public readonly int $id,
+        public readonly string $name,
+        public readonly string $email
+    ) {}
+
+    public static function create(int $id, string $name, string $email): UserDTO {
+        // potentially modify data before storing
+        // ...
+        return new self($id, $name, $email);
+    }
+}
+
+// good (php <8.1)
+$userData = UserDTO::create(
+    42,
+    'David',
+    'david@vielhuber.de'
+);
+print_r($userData->id()); // 42
+class UserDTO {
+    private int $id;
+    private string $name;
+    private string $email;
+    private function __construct(int $id, string $name, string $email) {
+        $this->id = $id;
+        $this->name = $name;
+        $this->email = $email;
+    }
+    public static function create(int $id, string $name, string $email): UserDTO {
+        // potentially modify data before storing
+        // ...
+        return new self($id, $name, $email);
+    }
+    public function id(): int {
+        return $this->id;
+    }
+    public function name(): string {
+        return $this->name;
+    }
+    public function email(): string {
+        return $this->email;
+    }
+}
+```
+
+### use vos
+
+- VOs (value objects) represent one or multiple values
+- Cannot be changed once instantiated
+- Validate the value when instantiating
+- Have methods that convert, compare or format the value
+- DTOs and VOs serve different purposes and actually complement each other very well
+    - DTOs transfer data (carry data between layers or systems, without holding much logic or responsibility)
+    - VOs ensure the integrity of data (focus on modeling concepts within your domain)
+
+```php
+// bad
+$price = (float) 42;
+$price = '$'.number_format($price/100, 2);
+echo $price;
+
+// good
+$price = Price::fromInteger(42);
+$price->formattedWithSymbol();
+$price->value();
+final readonly class Price
+{
+  public function __construct(private int $value) {
+    if ($value < 0) {
+      throw new PriceCannotBeBelowZero();
+    }
+  }
+  public static fromInteger(int $value): self {
+    return self($value);
+  }
+  private function convertToDollars(): float {
+    return $this->value / 100;
+  }
+  public function formattedWithSymbol(): string {
+    return '$' . number_format($this->convertToDollars(), 2);
+  }
+  public function value(): int {
+    return $this->value;
+  }
+}
+```
+
+### use constants
+
+```php
+// bad
+$threshold = 42;
+$anther_val = $threshold + 7;
+
+// good
+class ExampleModel {
+    public const THRESHOLD_VALUE = 40;
+}
+$another_val = ExampleModel::THRESHOLD_VALUE + 7;
+```
+
+### function chaining
+
+```php
+// bad
+$value = $foo->calc(save: true);
+
+// good
+$foo->save()->calc()->getValue();
+
+// bad
+(new Foo(data: 'bar'))->calc()
+
+// good
+(new Foo())->setData(data: 'bar')->calc()
+```
+
+### use framework functions
+
+```php
+// bad
+$str = trim($str);
+$str = mb_strtoupper($str);
+$str = str_replace(' ', '', $str);
+
+// good
+$str = Str::of($str)->trim()->upper()->replace(' ', '')->toString();
+
+// bad
+$num = number_format($num, ',', '.', 4)
+
+// good
+$num = Number::format($num, precision: 4, locale: 'de')
+```
+
+### prevent duplicate database calls
+
+```php
+// bad
+$model = Model::orderBy('id');
+$count = $model->count(); // counts in db
+$model = $model->get();
+
+// good
+$model = Model::orderBy('id');
+$model = $model->get();
+$count = $model->count(); // counts in collection
+```
+
+### output console commands
+
+```php
+// bad
+echo $msg . PHP_EOL; // with newline in command
+echo $msg . ' '; // without newline in command
+echo str_pad($msg, 99, ' ', STR_PAD_RIGHT) . "\r"; // with overwrite in command
+(new \Symfony\Component\Console\Output\ConsoleOutput())->writeln($msg); // with newline in controller
+(new \Symfony\Component\Console\Output\ConsoleOutput())->info($msg); // without newline in controller
+(new \Symfony\Component\Console\Output\ConsoleOutput())->write(str_pad($msg, 99, ' ', STR_PAD_RIGHT) . "\r"); // with overwrite in controller
+
+// good
+$this->info($msg); // with newline in command
+$this->output->write($msg); // without newline in command
+$this->output->write(str_pad($msg, 99, ' ', STR_PAD_RIGHT) . "\r"); // with overwrite in command
+ConsoleOutputHelper::info($msg); // with newline in controller
+ConsoleOutputHelper::write($msg); // without newline in controller
+ConsoleOutputHelper::overwrite($msg); // with overwrite in controller
+```
+
+### prevent too much nesting
+
+```php
+// bad
+function log($msg) : void {
+  if(...) {
+    echo $msg;
+  }
+}
+
+// good
+function log($msg) {
+  if(!...) {
+    return;
+  }
+  echo $msg;
+}
+```
+
+### prevent too much nesting (2)
+
+```php
+// bad
+if($a === true) {
+    if($b === true) {
+        if($c === true) {
+            return 42;
+        }
+    }
+}
+return 7;
+
+// good
+if($a !== true) { return 7; }
+if($b !== true) { return 7; }
+if($c !== true) { return 7; }
+return 42;
+```
+
+### prevent else
+
+```php
+// bad
+if($foo) {
+
+}
+elseif($bar) {
+
+}
+
+// good
+if($foo) {
+
+}
+if($bar && !$foo) {
+
+}
+```
+
+### prevent too much function calls
+
+```php
+// bad
+foo($value, true, true, false, 42)
+
+// good
+foo(value: $value, save: true, cache: true, force: false, amount: 42)
+$foo->withSave()->withCache()->withoutForce()->withAmount(42)->calculate($value);
+```
+
+### outsource long code parts
+
+```php
+// bad
+$isSpecial = false;
+if($foo) { $isSpecial = true; }
+if($bar && !$foo) { $isSpecial = false; }
+if($isSpecial) {
+  //...
+}
+
+// good
+function isSpecial() {
+  if($foo) { return true; }
+  if($bar) { return false; }
+  return false;
+}
+if($this->isSpecial()) {
+  //...
+}
+```
+
+### use carbon instead of strings
+
+```php
+// bad
+date('Y')-10
+
+// good
+Carbon::now()->subYears(10)->year
+```
+
+### use "final" keyword
+
+```php
+// bad
+class NonDerivativeClass {}
+
+// good
+final class NonDerivativeClass {}
+```
+
+### use php type hinting
+
+```php
+// bad
+public static function foo($a, $b = null, $c = false) {}
+
+// good
+protected function foo(int $a, ?string $b = null, bool $c = false): void {}
+
+// bad
+public $foo;
+
+// good
+protected ?int $foo;
+
+// bad
+public function foo(): void { die(); }
+
+// good
+public function foo(): never { die(); }
+```
+
+### use jobs to dispatch long running tasks
+
+```php
+// bad
+longRunningTask();
+
+// good
+CalculateLongRunningTaskQueue::dispatch();
+```
+
+### single line comments
+
+```php
+// bad
+/* this migration should not run */
+
+// bad
+// this migration should not run
+
+// good
+// This migration should not run.
+```
+
+### multiline comments
+
+```php
+// bad
+// this is
+// a multiline
+// comment
+
+// bad
+/*
+this is
+a multiline
+comment
+*/
+
+// good
 /**
- * @jest-environment jsdom
+ * This is
+ * a multiline
+ * comment.
  */
-import hlp from 'hlp';
+```
 
-describe('Test group 1', () => {
-    test('should validate object type', () => {
-        expect(hlp.isObject({})).toBe(true);
-    }, 3000);
+### comment functions (e.g. using copilot)
+
+```php
+// bad
+public function foo(): ?float {}
+
+// good
+/**
+ * Calculate the value for our example.
+ *
+ * @return float|null
+ */
+public function foo(): ?float {}
+```
+
+### phpunit tests: the expected value should come first as an argument
+
+```php
+// bad
+$this->assertSame($foo, 'bar');
+
+// good
+$this->assertSame('bar', $foo);
+```
+
+### always write tests (tdd), use factories
+
+```php
+// good
+Model::factory()->count(10)->create(['birth_date' => '1980-01-01']);
+Model::factory()->count(10)->create(['birth_date' => '1990-01-01']);
+Model::factory()->count(10)->create(['birth_date' => '2000-01-01']);
+$this->assertEquals(30, Model::whereBornAfter(1970)->count());
+$this->assertEquals(30, Model::whereBornAfter(1980)->count());
+$this->assertEquals(20, Model::whereBornAfter(1990)->count());
+```
+
+### always catch the most specific exception
+
+```php
+// bad
+catch(\Throwable $e) {
+    print_r($e->getMessage());
+}
+
+// good
+catch(\PDOException $e) {
+    print_r($e->getMessage());
+}
+```
+
+### use enums
+
+```php
+// bad
+class Environment
+{
+    static function get($str) {
+        if( $str === 'Entwicklung' ) { return 'dev'; }
+        if( $str === 'Test' ) { return 'stage'; }
+        if( $str === 'Produktion' ) { return 'prod'; }
+    }
+}
+echo Environment::get('Produktion'); // "prod"
+
+// good
+enum Environment: string
+{
+    case Entwicklung = 'dev';
+    case Test = 'stage';
+    case Produktion = 'prod';
+}
+echo Environment::Produktion->value; // "prod"
+```
+
+### use progress bars in commands
+
+```php
+// bad
+$data = getBigDataSet();
+foreach($data as $dataValue) {
+  /* ... */
+}
+
+// good
+$data = getBigDataSet();
+$this->withProgressBar($data, function ($dataValue) {
+  /* ... */
 });
 ```
 
-### Puppeteer Tests
+### extract exceptions
 
-```javascript
-describe('Test puppeteer', () => {
-    beforeAll(async () => {
-        await page.goto('https://google.com', { waitUntil: 'networkidle2' });
-    }, 3000);
+```php
+// bad
+throw new\Exception('Zeitraum ungültig.');
 
-    it('should display title', async () => {
-        await page.waitForSelector('body');
-        await expect(page.title()).resolves.toMatch('Google');
-    }, 3000);
-});
+// good
+throw ExampleException::partNotFound();
+// Exceptions/ExampleException.php
+namespace App\Exceptions;
+use Exception;
+class StudbookException extends Exception {
+    public static function invalidDateRange(): self {
+        return new self('Zeitraum ungültig.');
+    }
+}
 ```
 
-## Environment Variables
+### move logic from controller to services
 
-Create a `.env` file (copy from `.env.example`):
+```php
+// bad
+class ExampleController {
+    test() {
+        $this->fun1();
+        $this->fun2();
+        $this->fun3();
+        $this->fun4();
+    }
+}
 
-```bash
-DOMAIN=https://your-local-domain.test  # Required for Browsersync and critical CSS
+// good
+class ExampleController {
+    public function __construct(ExampleService1 $exampleService1, ExampleService2 $exampleService2)
+    {
+        $this->exampleService1 = $exampleService1;
+        $this->exampleService2 = $exampleService2;
+    }
+    test() {
+        $this->exampleService1->fun1();
+        $this->exampleService1->fun2();
+        $this->exampleService2->fun3();
+        $this->exampleService2->fun4();
+    }
+}
+class ExampleService1 {
+    fun1() {}
+    fun2() {}
+}
+class ExampleService2 {
+    fun3() {}
+    fun4() {}
+}
 ```
 
-Access in scripts via `from-env`:
+### uppercase immutable variables
 
-```bash
-from-env browser-sync start --proxy %DOMAIN
+```js
+// bad
+export default class ExampleClass {
+    static foo = 'bar';
+}
+
+// good
+export default class ExampleClass {
+    static FOO = 'bar';
+}
 ```
 
-## Common Development Workflows
+### extract selectors & split up functions
 
-### 1. Start Development Server
+```js
+// bad
+export default class Example {
+    load() {
+        document.querySelectorAll('.foo').forEach($el => {
+            $el.setAttribute('data-href', $el.getAttribute('href'));
+            $el.addEventListener('click', e => {
+                if (document.querySelector('.bar').value === '') { alert('Falscher Wert.'); }
+                $el.setAttribute('href','bar');
+            });
+        });
+    }
+}
 
-```bash
-npm run dev
-# - Watches CSS and JS files
-# - Starts Browsersync on port 3030
-# - Live reload on changes
-# - Uncompressed builds for debugging
+export default class Example {
+    static SELECTOR_1 = '.foo';
+    static SELECTOR_2 = '.bar';
+    load() {
+        this.bindSelectors();
+        this.setupExportLinks();
+    }
+    bindSelectors() {
+        this.$selector1 = document.querySelectorAll(getStudbook.DATE_SELECTORS.BEGIN);
+        this.$selector2 = document.querySelector(getStudbook.DATE_SELECTORS.END);
+    }
+    setupExportLinks() {
+        this.$selector1.forEach($link => this.setupLink($link));
+    }
+    setupLink($link) {
+        const origUrl = $link.getAttribute('href');
+        $link.setAttribute('data-href', origUrl);
+        $link.addEventListener('click', e => this.handleClick(e, $link));
+    }
+    handleClick(e, $link) {
+        if (!this.validateDateInputs()) { $this.showValidationError(); }
+        this.updateExportUrl($link);
+    }
+    validateDateInputs() {
+        return this.$selector2.value !== '';
+    }
+    showValidationError() {
+        alert('Falscher Wert.');
+    }
+    updateUrl($link) {
+        $link.setAttribute('href','bar');
+    }
+}
 ```
 
-### 2. Build for Production
+### prefix dom elements with dollar sign
 
-```bash
-npm run prod
-# - Minified CSS and JS bundles
-# - No watchers, single build
-# - Outputs to _public/
+```js
+// bad
+let el = document.querySelector('.foo');
+
+// good
+let $el = document.querySelector('.foo');
 ```
 
-### 3. Full Development with Tests
+### move logic (ids/labels) from view to controller
 
-```bash
-npm run dev:full
-# - All watchers active
-# - Continuous test execution
-# - HTML processing
-# - Asset copying
+```php
+// bad
+return view('example.view');
+<ul>
+    <li><a href="{{ URL::route('getExample',[1]) }}">Item 1</a></li>
+    <li><a href="{{ URL::route('getExample',[2]) }}">Item 2</a></li>
+    <li><a href="{{ URL::route('getExample',[3]) }}">Item 3</a></li>
+</ul>
+
+// good
+private const PARTS = [
+    ['id' => 1, 'label' => 'Item 1'],
+    ['id' => 2, 'label' => 'Item 2']
+    ['id' => 3, 'label' => 'Item 3']
+];
+/* ... */
+return view('example.view', [
+    'parts' => self::PARTS
+]);
+<ul>
+    @foreach($parts as $part)
+        <li><a href="{{ URL::route('getExample',[$part['id']]) }}">{{ $part['label'] }}</a></li>
+    @endforeach
+</ul>
 ```
-
-### 4. Full Production Build
-
-```bash
-npm run prod:full
-# - Cleans build directory
-# - Copies all assets
-# - Builds CSS with critical extraction
-# - Builds JS with tests
-# - Minifies and inlines HTML
-```
-
-### 5. Run Individual Tasks
-
-```bash
-npm run css:slim              # Just CSS
-npm run js:vite               # Just Vite bundling
-npm run js:tests              # Just tests
-npm run prettier              # Format all files
-```
-
-## Troubleshooting
-
-### Common Issues
-
-**1. "module is not defined in ES module scope"**
-
-- Cause: Using CommonJS syntax in `.js` files
-- Solution: Convert to ES modules or rename to `.cjs`
-
-**2. "time: /dev/stdout: No such device or address"**
-
-- Cause: Issues with `command time` output redirection
-- Solution: Use `/usr/bin/time -f "✅ (%es)"` without `-o` flag
-
-**3. Jest configuration errors**
-
-- Cause: Jest preset conflicts with ES modules
-- Solution: Ensure `jest.config.cjs` and `jest-puppeteer.config.cjs` use `.cjs` extension
-
-**4. Vite build errors**
-
-- Check `vite.config.js` for correct entry point (`_js/script.js`)
-- Ensure output directory is `_public`
-- Verify ES module imports are correct
-
-**5. Browsersync not working**
-
-- Verify DOMAIN is set in `.env`
-- Check proxy configuration matches your local server
-- Ensure port 3030 is available
-
-### Performance Notes
-
-- Build times are displayed after each task (in seconds)
-- Vite is significantly faster than Browserify for bundling
-- Watch modes use polling (25ms) for cross-platform compatibility
-- Debounce delays prevent excessive rebuilds
-
-## AI Agent Instructions
-
-### When Making Changes
-
-1. **Always preserve the existing pipeline structure** - Don't remove or rename existing scripts unless explicitly requested
-2. **Maintain ES module compatibility** - All new JS files should use `import`/`export`
-3. **Keep time measurements** - Use `command time` wrapper for new build tasks
-4. **Test after changes** - Run `npm run js:tests` to verify functionality
-5. **Update this guide** - Document any significant changes to the build pipeline
-
-### Code Style Guidelines
-
-- Use ES6+ syntax (classes, arrow functions, destructuring)
-- Prefer `const` over `let`, avoid `var`
-- Use template literals for string interpolation
-- Follow existing file naming conventions (PascalCase for classes)
-- Maintain SCSS organization (vars → reset → modules → utilities)
-- Keep Tailwind utilities in separate layer from custom CSS
-
-### Adding New Dependencies
-
-```bash
-npm install --save-dev <package>    # Dev dependencies
-npm install --save <package>         # Runtime dependencies
-```
-
-Update relevant configuration files and document in this guide.
-
-### Modifying the Build Pipeline
-
-When adding new build steps:
-
-1. Create individual task script with time wrapper
-2. Add to appropriate pipeline (slim/full)
-3. Create watch variant if needed
-4. Update this documentation
-5. Test in both dev and prod modes
-
-### Browserify to Vite Migration Notes
-
-- Vite replaced Browserify as the default bundler (Dec 2025)
-- Legacy Browserify commands remain available (`js:browserify*`)
-- Main difference: Vite uses native ES modules, faster builds
-- Babel transforms still applied via Vite's Rollup pipeline
-- CSS imports now handled by Vite (previously browserify-css)
-
-## Resources
-
-- [Vite Documentation](https://vite.dev)
-- [Babel Documentation](https://babeljs.io)
-- [Sass Documentation](https://sass-lang.com)
-- [Tailwind CSS v4 Documentation](https://tailwindcss.com)
-- [Jest Documentation](https://jestjs.io)
-- [Puppeteer Documentation](https://pptr.dev)
-- [npm-run-all Documentation](https://github.com/mysticatea/npm-run-all)
-
-## Changelog
-
-### Recent Updates
-
-- **Dec 2025**: Migrated from Browserify to Vite as default bundler
-- **Dec 2025**: Added `command time` performance measurements to all build tasks
-- **Dec 2025**: Converted to ES module system (`"type": "module"`)
-- **Dec 2025**: Updated to Tailwind CSS v4
-- **Dec 2025**: Updated Jest configuration for ES module compatibility
-
----
-
-**Maintained by**: David <david@vielhuber.de>
-**License**: UNLICENSED (Private project)
-**Version**: 42.0.0

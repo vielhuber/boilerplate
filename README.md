@@ -15,6 +15,7 @@ this is a boilerplate starter kit for rapid web development. it is based on [npm
 - [hlp](https://github.com/vielhuber/hlp)
 - [Prettier](https://github.com/prettier/prettier) and [Prettier PHP Plugin](https://github.com/prettier/plugin-php)
 - [Desktop notifications](https://github.com/micromata/cli-error-notifier) on error
+- [AGENTS.md](https://agents.md)
 
 ## features
 

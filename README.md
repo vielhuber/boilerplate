@@ -36,10 +36,10 @@ this is a boilerplate starter kit for rapid web development. it is based on [npm
 ```
 mkdir testproject
 cd testproject
-wget https://github.com/vielhuber/boilerplate/archive/master.zip
-unzip master.zip -d .
-mv boilerplate-master/{.[!.],}* .
-rm -r boilerplate-master master.zip README.md
+wget https://github.com/vielhuber/boilerplate/archive/main.zip
+unzip main.zip -d .
+mv boilerplate-main/{.[!.],}* .
+rm -r boilerplate-main main.zip README.md
 cp .env.example .env
 nvm use --lts
 npm install

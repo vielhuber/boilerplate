@@ -3,6 +3,7 @@ applyTo: '**'
 ---
 
 - Always answer in German and with a robot emoji 🤖 at the end.
+- Write comments always in english.
 
 ### code comments
 

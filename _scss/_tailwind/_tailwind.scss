@@ -42,7 +42,7 @@
         }
     }
     .selection-color,
-    .selection-color * {
+    .selection-color *:not(svg):not(svg *) {
         ::selection {
             background: var(--color-black);
             color: var(--color-white);

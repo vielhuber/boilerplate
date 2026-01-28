@@ -4,6 +4,8 @@ applyTo: '**'
 
 - Always answer in German and with a robot emoji 🤖 at the end.
 - Write comments always in english.
+- When answering questions about frameworks, libraries, or APIs, use Context7 to retrieve current documentation rather than relying on training data.
+- If code changes make sense, always make them immediately. Don't ask again.
 
 ### code comments
 

@@ -51,7 +51,7 @@
         "copy": "echo \"⏳\" && command time -f \"✅ (%es)\" ncp ./_assets ./$npm_package_config_build_folder/ && ncp ./_php ./$npm_package_config_build_folder/",
         "copy:watch": "onchange './_assets/**/*.*' './_php/**/*.*' --initial --poll 25 --delay 0 --await-write-finish 25 -- onerror \"npm run copy\" --title \"copy:watch\" --message \"build failed\" --sound mute",
         "delete:file": "echo \"⏳\" && command time -f \"✅ (%es)\" del-cli ./$npm_package_config_build_folder/index.html",
-        "delete:files": "echo \"⏳\" && command time -f \"✅ (%es)\" del-cli ./$npm_package_config_build_folder/*.* ./$npm_package_config_build_folder/**/",
+        "delete:files": "echo \"⏳\" && command time -f \"✅ (%es)\" del-cli ./$npm_package_config_build_folder/*.* ./$npm_package_config_build_folder/.* ./$npm_package_config_build_folder/**/",
         "replace": "echo \"⏳\" && command time -f \"✅ (%es)\" replace-in-file \"/Copyright/g\" \"Hurray\" ./$npm_package_config_build_folder/index.html --isRegex",
         "prettier": "echo \"⏳\" && command time -f \"✅ (%es)\" onchange './_scss/**/*.scss' './_libs/**/*.css' './_js/**/*.js' './_tests/_js/**/*.js' './_html/**/*.html' './_php/**/*.php' -- prettier --write {{changed}}",
         "update-changelog": "echo \"⏳\" && command time -f \"✅ (%es)\" auto-changelog --commit-limit false --package",

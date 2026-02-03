@@ -1,9 +1,30 @@
 {
     "singleQuote": true,
+    "editorconfig": false,
+    "overrides": [
+        {
+            "files": ["**/*.css", "**/*.scss"],
+            "options": {
+                "singleQuote": false
+            }
+        },
+        {
+            "files": ["**/*.php"],
+            "options": {
+                "trailingCommaPHP": false,
+                "phpVersion": "8.2",
+                "plugins": ["@prettier/plugin-php"]
+            }
+        },
+        {
+            "files": ["**/*.sh"],
+            "options": {
+                "plugins": ["prettier-plugin-sh"]
+            }
+        }
+    ],
     "tabWidth": 4,
     "printWidth": 120,
     "trailingComma": "none",
-    "trailingCommaPHP": false,
-    "phpVersion": "7.2",
     "arrowParens": "avoid"
 }

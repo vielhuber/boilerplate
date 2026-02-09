@@ -6,6 +6,7 @@
 /usage/
 /_js/_build/
 /_tests/_build/
+__snapshots__
 .idea/
 .devcontainer/
 __image_snapshots__

@@ -5,6 +5,7 @@ this is a boilerplate starter kit for rapid web development. it is based on [npm
 ## includes
 
 - [Vite](https://vite.dev)
+- [TypeScript](https://www.typescriptlang.org)
 - [Babel](https://babeljs.io)
 - [Sass](http://sass-lang.com) (+sourcemaps/autoprefixing/file inlining)
 - [Browsersync](https://www.browsersync.io)

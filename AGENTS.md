@@ -8,6 +8,21 @@ applyTo: '**'
 - When answering questions about frameworks, libraries, or APIs, use Context7 to retrieve current documentation rather than relying on training data.
 - If code changes make sense, always make them immediately. Don't ask again.
 
+### use strict types
+
+Always add `declare(strict_types=1);` at the top of PHP files. For new files, add it immediately. For existing files, fix them gradually.
+
+```php
+// bad
+<?php
+namespace App;
+
+// good
+<?php
+declare(strict_types=1);
+namespace App;
+```
+
 ### code comments
 
 ```php
@@ -252,8 +267,8 @@ final readonly class Price
       throw new PriceCannotBeBelowZero();
     }
   }
-  public static fromInteger(int $value): self {
-    return self($value);
+  public static function fromInteger(int $value): self {
+    return new self($value);
   }
   private function convertToDollars(): float {
     return $this->value / 100;
@@ -272,7 +287,7 @@ final readonly class Price
 ```php
 // bad
 $threshold = 42;
-$anther_val = $threshold + 7;
+$another_val = $threshold + 7;
 
 // good
 class ExampleModel {
@@ -309,7 +324,7 @@ $str = str_replace(' ', '', $str);
 $str = Str::of($str)->trim()->upper()->replace(' ', '')->toString();
 
 // bad
-$num = number_format($num, ',', '.', 4)
+$num = number_format($num, 4, '.', ',')
 
 // good
 $num = Number::format($num, precision: 4, locale: 'de')
@@ -408,7 +423,7 @@ if($bar && !$foo) {
 }
 ```
 
-### prevent too much function calls
+### prevent too much function arguments
 
 ```php
 // bad
@@ -494,6 +509,8 @@ CalculateLongRunningTaskQueue::dispatch();
 ```
 
 ### single line comments
+
+This applies to standalone, sentence-like comments (e.g., migration notices, section headers). For inline code explanations, see `code comments`.
 
 ```php
 // bad
@@ -631,7 +648,7 @@ throw ExampleException::partNotFound();
 // Exceptions/ExampleException.php
 namespace App\Exceptions;
 use Exception;
-class StudbookException extends Exception {
+class ExampleException extends Exception {
     public static function invalidDateRange(): self {
         return new self('Zeitraum ungültig.');
     }
@@ -704,7 +721,7 @@ export default class Example {
         });
     }
 }
-
+// good
 export default class Example {
     static SELECTOR_1 = '.foo';
     static SELECTOR_2 = '.bar';
@@ -764,7 +781,7 @@ return view('example.view');
 // good
 private const PARTS = [
     ['id' => 1, 'label' => 'Item 1'],
-    ['id' => 2, 'label' => 'Item 2']
+    ['id' => 2, 'label' => 'Item 2'],
     ['id' => 3, 'label' => 'Item 3']
 ];
 /* ... */

@@ -1,3 +1,8 @@
+[![GitHub Tag](https://img.shields.io/github/v/tag/vielhuber/boilerplate)](https://github.com/vielhuber/boilerplate/tags)
+[![Code Style](https://img.shields.io/badge/code_style-psr--12-ff69b4.svg)](https://www.php-fig.org/psr/psr-12/)
+[![License](https://img.shields.io/github/license/vielhuber/boilerplate)](https://github.com/vielhuber/boilerplate/blob/main/LICENSE.md)
+[![Last Commit](https://img.shields.io/github/last-commit/vielhuber/boilerplate)](https://github.com/vielhuber/boilerplate/commits)
+
 # 📦 boilerplate 📦
 
 this is a boilerplate starter kit for rapid web development. it is based on [npm scripts](https://docs.npmjs.com/misc/scripts).

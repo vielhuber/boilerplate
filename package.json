@@ -154,5 +154,5 @@
     "main": "$npm_package_config_build_folder/bundle.js",
     "author": "David <david@vielhuber.de> (https://vielhuber.de)",
     "type": "module",
-    "license": "UNLICENSED"
+    "license": "MIT"
 }

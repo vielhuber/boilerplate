@@ -7,6 +7,14 @@ applyTo: '**'
 - Never commit or push changes automatically in git.
 - When answering questions about frameworks, libraries, or APIs, use Context7 to retrieve current documentation rather than relying on training data.
 - If code changes make sense, always make them immediately. Don't ask again.
+- Think before acting. Read existing files before writing code.
+- Be concise in output but thorough in reasoning.
+- Prefer editing over rewriting whole files.
+- Do not re-read files you have already read unless the file may have changed.
+- Test your code before declaring done.
+- No sycophantic openers or closing fluff.
+- Keep solutions simple and direct.
+- User instructions always override this file.
 
 ### use strict types
 

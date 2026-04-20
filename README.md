@@ -53,15 +53,13 @@ npm install
 
 ## usage
 
-the css pipeline comes in two flavors: **tailwind** (postcss, no sass) and **basic** (sass only, no tailwind).
-
-| command                        | pipeline | watch | browsersync | delete | copy | css | js | html | tests |
+| `npm run`                        | pipeline | watch | browsersync | delete | copy | css | js | html | tests |
 | ------------------------------ | -------- | :---: | :---------: | :----: | :--: | :-: | :-: | :--: | :---: |
-| `npm run prod:slim:tailwind`   | tailwind |       |             |        |      | ✓   | ✓   |      |       |
-| `npm run dev:slim:tailwind`    | tailwind | ✓     | ✓           |        |      | ✓   | ✓   |      |       |
-| `npm run prod:full:tailwind`   | tailwind |       |             | ✓      | ✓    | ✓   | ✓   | ✓    |       |
-| `npm run dev:full:tailwind`    | tailwind | ✓     | ✓           |        | ✓    | ✓   | ✓   | ✓    | ✓     |
-| `npm run prod:slim:basic`      | basic    |       |             |        |      | ✓   | ✓   |      |       |
-| `npm run dev:slim:basic`       | basic    | ✓     | ✓           |        |      | ✓   | ✓   |      |       |
-| `npm run prod:full:basic`      | basic    |       |             | ✓      | ✓    | ✓   | ✓   | ✓    |       |
-| `npm run dev:full:basic`       | basic    | ✓     | ✓           |        | ✓    | ✓   | ✓   | ✓    | ✓     |
+| `dev:slim:tailwind`    | tailwind | ✓     | ✓           |        |      | ✓   | ✓   |      |       |
+| `dev:full:tailwind`    | tailwind | ✓     | ✓           |        | ✓    | ✓   | ✓   | ✓    | ✓     |
+| `prod:slim:tailwind`   | tailwind |       |             |        |      | ✓   | ✓   |      |       |
+| `prod:full:tailwind`   | tailwind |       |             | ✓      | ✓    | ✓   | ✓   | ✓    |       |
+| `dev:slim:basic`       | basic    | ✓     | ✓           |        |      | ✓   | ✓   |      |       |
+| `dev:full:basic`       | basic    | ✓     | ✓           |        | ✓    | ✓   | ✓   | ✓    | ✓     |
+| `prod:slim:basic`      | basic    |       |             |        |      | ✓   | ✓   |      |       |
+| `prod:full:basic`      | basic    |       |             | ✓      | ✓    | ✓   | ✓   | ✓    |       |

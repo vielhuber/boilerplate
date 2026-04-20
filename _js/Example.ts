@@ -5,6 +5,8 @@ import hljs from 'highlight.js';
 import 'highlight.js/styles/github.css';
 
 export default class Example {
+    var1: string;
+    var2: string;
     var3 = 'this also works!';
     static var4 = 'this also!';
 
@@ -18,7 +20,7 @@ export default class Example {
         await this.loadScripts();
         this.addEnvironment();
         console.log(document.querySelector('footer').closest('body'));
-        let foo = {};
+        let foo: { bar?: { baz?: string } } = {};
         console.log(foo?.bar?.baz);
         foo = { bar: { baz: 'gnarr' } };
         console.log(foo?.bar?.baz);

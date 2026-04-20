@@ -1,5 +1,6 @@
 export default class Module {
     static selector = '.module';
+    $el: Element;
     constructor($el) {
         this.$el = $el;
     }

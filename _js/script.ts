@@ -7,9 +7,22 @@ import Navigation from './Navigation';
 import Module from './Module';
 import RouteX from './RouteX';
 
+type SingletonClass = (new () => { ready?: () => void; load?: () => void }) & {
+    readyOnce?: () => void;
+    loadOnce?: () => void;
+};
+type ComponentClass = (new ($el: Element) => { ready?: () => void; load?: () => void }) & {
+    selector: string;
+    readyOnce?: () => void;
+    loadOnce?: () => void;
+};
+type RouteClass = (new () => { ready?: () => void; load?: () => void }) & {
+    route: string;
+};
+
 /* modular way */
 // singletons
-[Page, Navigation].forEach(classes__value => {
+([Page, Navigation] as SingletonClass[]).forEach(classes__value => {
     // for convenience we use dynamic instead of static functions
     let c = new classes__value();
     if (typeof c.ready === 'function') {
@@ -35,7 +48,7 @@ import RouteX from './RouteX';
     }
 });
 // components
-[[Module, 'Module']].forEach(classes__value => {
+([[Module, 'Module']] as [ComponentClass, string][]).forEach(classes__value => {
     hlp.runForEl(classes__value[0].selector, $el => {
         let c = new classes__value[0]($el);
         if (typeof c.ready === 'function') {
@@ -50,7 +63,7 @@ import RouteX from './RouteX';
         }
         // also add it to the dom element (for an implicit event bus for communication between classes); call via $0.Module
         // we cannot use c.constructor.name here, because minification would break!
-        $el[classes__value[1]] = c;
+        ($el as Element & Record<string, unknown>)[classes__value[1]] = c;
     });
     // allow classes to also have static functions (these are only called ONCE overall)
     hlp.ready().then(() => {
@@ -65,7 +78,7 @@ import RouteX from './RouteX';
     });
 });
 // routes
-[[RouteX, 'RouteX']].forEach(classes__value => {
+([[RouteX, 'RouteX']] as [RouteClass, string][]).forEach(classes__value => {
     if (new RegExp(classes__value[0].route).test(window.location.pathname) === false) {
         return;
     }

@@ -1,9 +1,9 @@
 describe('Test puppeteer', () => {
     it('first visual regression test', async () => {
         const page = await browser.newPage();
-        await page.goto('https://vielhuber.de');
+        await page.goto('https://example.com');
         const image = await page.screenshot();
-        expect(image.toString('base64')).toMatchSnapshot();
+        expect(Buffer.from(image).toString('base64')).toMatchSnapshot();
         await page.close();
     });
 });

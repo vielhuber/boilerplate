@@ -1,4 +1,7 @@
 export default class Navigation {
+    breakpoint: number;
+    selectorChildren: string;
+    classHover: string;
     constructor() {
         this.breakpoint = 768;
         this.selectorChildren = '#header .menu-item.menu-item-has-children';
@@ -30,7 +33,7 @@ export default class Navigation {
                     }
                 });
                 window.addEventListener('touchstart', e => {
-                    if (!el.contains(e.target)) {
+                    if (!el.contains(e.target as Node)) {
                         el.classList.remove(this.classHover);
                     }
                 });
@@ -68,4 +71,7 @@ export default class Navigation {
             });
         });
     }
+
+    static async readyOnce() {}
+    static async loadOnce() {}
 }

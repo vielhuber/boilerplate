@@ -1,6 +1,8 @@
 import SVGInject from '@iconfu/svg-inject';
 
 export default class Page {
+    originalPageTitle: string;
+    pageTitleChangingTimeout: ReturnType<typeof setTimeout>;
     constructor() {}
 
     async ready() {
@@ -184,11 +186,11 @@ export default class Page {
 
     blogComment() {
         if (document.querySelector('.add-blog-comment') !== null) {
-            document.querySelectorAll('.add-blog-comment').forEach(el => {
+            document.querySelectorAll<HTMLFormElement>('.add-blog-comment').forEach(el => {
                 el.addEventListener('submit', e => {
                     fetch(el.getAttribute('action'), {
                         method: el.getAttribute('method'),
-                        body: new URLSearchParams(new FormData(el)),
+                        body: new URLSearchParams(new FormData(el) as unknown as URLSearchParams),
                         cache: 'no-cache'
                     })
                         .then(response => {

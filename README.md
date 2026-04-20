@@ -13,7 +13,7 @@ this is a boilerplate starter kit for rapid web development. it is based on [npm
 - [TypeScript](https://www.typescriptlang.org)
 - [Babel](https://babeljs.io)
 - [Sass](http://sass-lang.com) (basic pipeline: sourcemaps, autoprefixing, file inlining)
-- [Tailwind CSS v4](https://tailwindcss.com/) (tailwind pipeline: PostCSS, no Sass)
+- [Tailwind CSS](https://tailwindcss.com/) (tailwind pipeline: PostCSS, no Sass)
 - [Browsersync](https://www.browsersync.io)
 - [eslint](https://eslint.org)
 - [React](https://reactjs.org)
@@ -53,11 +53,15 @@ npm install
 
 ## usage
 
-the css pipeline comes in two flavors: **tailwind** (postcss, no sass) and **sass** (sass only, no tailwind).
+the css pipeline comes in two flavors: **tailwind** (postcss, no sass) and **basic** (sass only, no tailwind).
 
-| description | tailwind | sass |
-|---|---|---|
-| watch + browsersync, uncompressed | `npm run dev:slim:tailwind` | `npm run dev:slim:basic` |
-| build once: css + js | `npm run prod:slim:tailwind` | `npm run prod:slim:basic` |
-| full build: delete, copy, css (critical + libs), js (babel + libs + tests), html | `npm run prod:full:tailwind` | `npm run prod:full:basic` |
-| full dev: all watchers + browsersync | `npm run dev:full:tailwind` | `npm run dev:full:basic` |
+| command                        | pipeline | watch | browsersync | delete | copy | css | js | html | tests |
+| ------------------------------ | -------- | :---: | :---------: | :----: | :--: | :-: | :-: | :--: | :---: |
+| `npm run prod:slim:tailwind`   | tailwind |       |             |        |      | ✓   | ✓   |      |       |
+| `npm run dev:slim:tailwind`    | tailwind | ✓     | ✓           |        |      | ✓   | ✓   |      |       |
+| `npm run prod:full:tailwind`   | tailwind |       |             | ✓      | ✓    | ✓   | ✓   | ✓    |       |
+| `npm run dev:full:tailwind`    | tailwind | ✓     | ✓           |        | ✓    | ✓   | ✓   | ✓    | ✓     |
+| `npm run prod:slim:basic`      | basic    |       |             |        |      | ✓   | ✓   |      |       |
+| `npm run dev:slim:basic`       | basic    | ✓     | ✓           |        |      | ✓   | ✓   |      |       |
+| `npm run prod:full:basic`      | basic    |       |             | ✓      | ✓    | ✓   | ✓   | ✓    |       |
+| `npm run dev:full:basic`       | basic    | ✓     | ✓           |        | ✓    | ✓   | ✓   | ✓    | ✓     |

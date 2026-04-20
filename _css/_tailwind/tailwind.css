@@ -1,0 +1,192 @@
+/* tailwind core */
+@import "tailwindcss";
+
+/* fonts */
+/*@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500&family=Roboto:wght@300;400;500&display=swap');*/
+
+@font-face {
+    font-family: "common-font-family-name";
+    src:
+        url("_fonts/font-thin.woff2") format("woff2"),
+        url("_fonts/font-thin.woff") format("woff");
+    font-display: swap;
+    font-style: normal;
+    font-weight: 100;
+}
+@font-face {
+    font-family: "common-font-family-name";
+    src:
+        url("_fonts/font-thin.woff2") format("woff2"),
+        url("_fonts/font-thin.woff") format("woff");
+    font-display: swap;
+    font-style: normal;
+    font-weight: 200;
+}
+@font-face {
+    font-family: "common-font-family-name";
+    src:
+        url("_fonts/font-thin.woff2") format("woff2"),
+        url("_fonts/font-thin.woff") format("woff");
+    font-display: swap;
+    font-style: normal;
+    font-weight: 300;
+}
+@font-face {
+    font-family: "common-font-family-name";
+    src:
+        url("_fonts/font-regular.woff2") format("woff2"),
+        url("_fonts/font-regular.woff") format("woff");
+    font-display: swap;
+    font-style: normal;
+    font-weight: 400; /* same as "normal" */
+}
+@font-face {
+    font-family: "common-font-family-name";
+    src:
+        url("_fonts/font-regular.woff2") format("woff2"),
+        url("_fonts/font-regular.woff") format("woff");
+    font-display: swap;
+    font-style: normal;
+    font-weight: 500;
+}
+@font-face {
+    font-family: "common-font-family-name";
+    src:
+        url("_fonts/font-bold.woff2") format("woff2"),
+        url("_fonts/font-bold.woff") format("woff");
+    font-display: swap;
+    font-style: normal;
+    font-weight: 600;
+}
+@font-face {
+    font-family: "common-font-family-name";
+    src:
+        url("_fonts/font-bold.woff2") format("woff2"),
+        url("_fonts/font-bold.woff") format("woff");
+    font-display: swap;
+    font-style: normal;
+    font-weight: 700; /* same as bold */
+}
+@font-face {
+    font-family: "common-font-family-name";
+    src:
+        url("_fonts/font-bold.woff2") format("woff2"),
+        url("_fonts/font-bold.woff") format("woff");
+    font-display: swap;
+    font-style: normal;
+    font-weight: 800;
+}
+@font-face {
+    font-family: "common-font-family-name";
+    src:
+        url("_fonts/font-bold.woff2") format("woff2"),
+        url("_fonts/font-bold.woff") format("woff");
+    font-display: swap;
+    font-style: normal;
+    font-weight: 900;
+}
+
+html,
+body,
+button,
+input,
+select,
+textarea,
+code {
+    font-family: "common-font-family-name", sans-serif;
+    font-weight: normal;
+    font-style: normal;
+}
+
+header {
+    font-family: "common-font-family-name";
+}
+
+/* theme */
+@theme {
+    /* fonts */
+    --font-custom: "Open Sans", sans-serif;
+
+    /* colors */
+    --color-black: #000000;
+    --color-white: #ffffff;
+    --color-red: #e20b31;
+
+    /* breakpoints */
+    --breakpoint-xs: 0px;
+    --breakpoint-sm: 640px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 1024px;
+    --breakpoint-xl: 1280px;
+    --breakpoint-2xl: 1536px;
+    --breakpoint-3xl: 1920px;
+    --breakpoint-4xl: 2560px;
+    --breakpoint-5xl: 3840px;
+}
+
+/* utilities */
+@layer utilities {
+    .scrollbar {
+        scrollbar-width: auto;
+        scrollbar-gutter: stable;
+        @supports (selector(::-webkit-scrollbar)) {
+            & {
+                scrollbar-color: auto;
+            }
+            &::-webkit-scrollbar {
+                width: 1.875rem;
+            }
+            &::-webkit-scrollbar-track {
+                background-color: var(--color-black);
+                box-shadow: inset 0 0 0.625rem rgba(0, 0, 0, 0.5);
+            }
+            &::-webkit-scrollbar-thumb {
+                background-color: var(--color-white);
+                border-radius: 0.625rem;
+                cursor: pointer;
+            }
+        }
+        @supports (not selector(::-webkit-scrollbar)) {
+            & {
+                scrollbar-color: var(--color-white) var(--color-black);
+            }
+        }
+    }
+    .selection-color,
+    .selection-color *:not(svg):not(svg *) {
+        ::selection {
+            background: var(--color-black);
+            color: var(--color-white);
+        }
+        ::-moz-selection {
+            background: var(--color-black);
+            color: var(--color-white);
+        }
+        ::-webkit-selection {
+            background: var(--color-black);
+            color: var(--color-white);
+        }
+    }
+    .hyphenate {
+        hyphens: auto;
+        -ms-hyphens: auto;
+        -moz-hyphens: auto;
+        -webkit-hyphens: auto;
+
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+
+        hyphenate-limit-chars: 10 3 4;
+        -ms-hyphenate-limit-chars: 10 3 4;
+        -webkit-hyphenate-limit-before: 3;
+        -webkit-hyphenate-limit-after: 4;
+    }
+    .no-hyphenate {
+        overflow-wrap: normal;
+        word-wrap: normal;
+        -webkit-hyphens: manual;
+        -ms-hyphens: manual;
+        -moz-hyphens: manual;
+        hyphens: manual;
+    }
+}

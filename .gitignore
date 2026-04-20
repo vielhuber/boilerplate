@@ -17,5 +17,4 @@ __image_snapshots__
 /composer.lock
 desktop.ini
 .DS_Store
-#uncomment this, we put this in git because of dependabot
-#/package-lock.json
+/package-lock.json

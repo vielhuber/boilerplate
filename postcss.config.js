@@ -1,12 +1,17 @@
+import tailwindcss from '@tailwindcss/postcss';
+import autoprefixer from 'autoprefixer';
+import cssnano from 'cssnano';
+import postcssUrl from 'postcss-url';
+
 export default {
     map: false,
     plugins:
         process.env.NODE_ENV === 'production'
             ? [
-                  require('autoprefixer'),
-                  require('@tailwindcss/postcss'),
-                  require('cssnano')({ preset: 'default' }),
-                  require('postcss-url')({ url: 'inline', basePath: ['./', './_fonts/'] })
+                  tailwindcss,
+                  autoprefixer,
+                  cssnano({ preset: 'default' }),
+                  postcssUrl({ url: 'inline', basePath: ['../../_assets/'] })
               ]
-            : [require('@tailwindcss/postcss')]
+            : [tailwindcss]
 };

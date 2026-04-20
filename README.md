@@ -12,9 +12,9 @@ this is a boilerplate starter kit for rapid web development. it is based on [npm
 - [Vite](https://vite.dev)
 - [TypeScript](https://www.typescriptlang.org)
 - [Babel](https://babeljs.io)
-- [Sass](http://sass-lang.com) (+sourcemaps/autoprefixing/file inlining)
+- [Sass](http://sass-lang.com) (basic pipeline: sourcemaps, autoprefixing, file inlining)
+- [Tailwind CSS v4](https://tailwindcss.com/) (tailwind pipeline: PostCSS, no Sass)
 - [Browsersync](https://www.browsersync.io)
-- [Tailwind CSS](https://tailwindcss.com/)
 - [eslint](https://eslint.org)
 - [React](https://reactjs.org)
 - [Jest](https://github.com/facebook/jest) (unit/integration/regression tests with [Puppeteer](https://github.com/smooth-code/jest-puppeteer))
@@ -53,14 +53,11 @@ npm install
 
 ## usage
 
-#### run watchers, browsersync and use uncompressed versions
+the css pipeline comes in two flavors: **tailwind** (postcss, no sass) and **sass** (sass only, no tailwind).
 
-```
-npm run dev
-```
-
-#### build once for production
-
-```
-npm run prod
-```
+| description | tailwind | sass |
+|---|---|---|
+| watch + browsersync, uncompressed | `npm run dev:slim:tailwind` | `npm run dev:slim:basic` |
+| build once: css + js | `npm run prod:slim:tailwind` | `npm run prod:slim:basic` |
+| full build: delete, copy, css (critical + libs), js (babel + libs + tests), html | `npm run prod:full:tailwind` | `npm run prod:full:basic` |
+| full dev: all watchers + browsersync | `npm run dev:full:tailwind` | `npm run dev:full:basic` |

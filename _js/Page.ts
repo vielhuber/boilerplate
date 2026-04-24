@@ -143,6 +143,9 @@ export default class Page {
     }
 
     videoController() {
+        if (document.querySelector('.video-trigger') === null) {
+            return;
+        }
         document.querySelectorAll('.video-trigger').forEach(el => {
             el.addEventListener('click', e => {
                 let videoId = el.getAttribute('data-video-id'),
@@ -180,43 +183,45 @@ export default class Page {
     }
 
     blogComment() {
-        document.querySelectorAll('.add-blog-comment').forEach(el => {
-            el.addEventListener('submit', e => {
-                fetch(el.getAttribute('action'), {
-                    method: el.getAttribute('method'),
-                    body: new URLSearchParams(new FormData(el) as any),
-                    cache: 'no-cache'
-                })
-                    .then(response => {
-                        let data = response.json(),
-                            status = response.status;
-                        if (status == 200 || status == 304 || status == 400) {
-                            return data;
-                        }
-                        return {
-                            success: false,
-                            message: status
-                        };
+        if (document.querySelector('.add-blog-comment') !== null) {
+            document.querySelectorAll('.add-blog-comment').forEach(el => {
+                el.addEventListener('submit', e => {
+                    fetch(el.getAttribute('action'), {
+                        method: el.getAttribute('method'),
+                        body: new URLSearchParams(new FormData(el) as any),
+                        cache: 'no-cache'
                     })
-                    .catch(error => {
-                        return {
-                            success: false,
-                            message: error
-                        };
-                    })
-                    .then(response => {
-                        let message = el.querySelector('.message');
-                        if (message !== null) {
-                            if (response.message === 'error') {
-                                message.classList.add('text-error');
+                        .then(response => {
+                            let data = response.json(),
+                                status = response.status;
+                            if (status == 200 || status == 304 || status == 400) {
+                                return data;
                             }
-                            message.innerHTML = response.public_message;
-                        }
-                        el.reset();
-                    });
+                            return {
+                                success: false,
+                                message: status
+                            };
+                        })
+                        .catch(error => {
+                            return {
+                                success: false,
+                                message: error
+                            };
+                        })
+                        .then(response => {
+                            let message = el.querySelector('.message');
+                            if (message !== null) {
+                                if (response.message === 'error') {
+                                    message.classList.add('text-error');
+                                }
+                                message.innerHTML = response.public_message;
+                            }
+                            el.reset();
+                        });
 
-                e.preventDefault();
+                    e.preventDefault();
+                });
             });
-        });
+        }
     }
 }

@@ -14,27 +14,29 @@ export default class Navigation {
     }
 
     initOnLoad() {
-        document.querySelectorAll(this.selectorChildren).forEach(el => {
-            el.addEventListener('touchstart', e => {
-                if (window.innerWidth < this.breakpoint) {
-                    return;
-                }
-                if (el.classList.contains(this.classHover)) {
-                    return;
-                }
-                e.preventDefault();
-                document.querySelectorAll(this.selectorChildren).forEach(other => {
-                    other.classList.remove(this.classHover);
+        if (document.querySelector(this.selectorChildren) !== null) {
+            document.querySelectorAll(this.selectorChildren).forEach(el => {
+                el.addEventListener('touchstart', e => {
+                    if (window.innerWidth < this.breakpoint) {
+                        return;
+                    }
+                    if (el.classList.contains(this.classHover)) {
+                        return;
+                    }
+                    e.preventDefault();
+                    document.querySelectorAll(this.selectorChildren).forEach(other => {
+                        other.classList.remove(this.classHover);
+                    });
+                    el.classList.add(this.classHover);
                 });
-                el.classList.add(this.classHover);
+                window.addEventListener('touchstart', e => {
+                    if (el.contains(e.target as Node)) {
+                        return;
+                    }
+                    el.classList.remove(this.classHover);
+                });
             });
-            window.addEventListener('touchstart', e => {
-                if (el.contains(e.target as Node)) {
-                    return;
-                }
-                el.classList.remove(this.classHover);
-            });
-        });
+        }
     }
 
     headerCollapse() {

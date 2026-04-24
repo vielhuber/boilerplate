@@ -63,7 +63,7 @@ type RouteClass = (new () => { ready?: () => void; load?: () => void }) & {
         }
         // also add it to the dom element (for an implicit event bus for communication between classes); call via $0.Module
         // we cannot use c.constructor.name here, because minification would break!
-        ($el as Element & Record<string, unknown>)[classes__value[1]] = c;
+        ($el as any)[classes__value[1]] = c;
     });
     // allow classes to also have static functions (these are only called ONCE overall)
     hlp.ready().then(() => {

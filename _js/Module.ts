@@ -1,9 +1,6 @@
 export default class Module {
     static selector = '.module';
-    $el: Element;
-    constructor($el) {
-        this.$el = $el;
-    }
+    constructor(public $el: Element) {}
     async ready() {
         console.log(this.$el);
     }

@@ -1,12 +1,7 @@
 export default class Navigation {
-    breakpoint: number;
-    selectorChildren: string;
-    classHover: string;
-    constructor() {
-        this.breakpoint = 768;
-        this.selectorChildren = '#header .menu-item.menu-item-has-children';
-        this.classHover = 'hover';
-    }
+    breakpoint = 768;
+    selectorChildren = '#header .menu-item.menu-item-has-children';
+    classHover = 'hover';
 
     async ready() {
         console.log('ready');
@@ -19,26 +14,27 @@ export default class Navigation {
     }
 
     initOnLoad() {
-        if (document.querySelector(this.selectorChildren) !== null) {
-            document.querySelectorAll(this.selectorChildren).forEach(el => {
-                el.addEventListener('touchstart', e => {
-                    if (window.innerWidth >= this.breakpoint) {
-                        if (!el.classList.contains(this.classHover)) {
-                            e.preventDefault();
-                            document.querySelectorAll(this.selectorChildren).forEach(el => {
-                                el.classList.remove(this.classHover);
-                            });
-                            el.classList.add(this.classHover);
-                        }
-                    }
+        document.querySelectorAll(this.selectorChildren).forEach(el => {
+            el.addEventListener('touchstart', e => {
+                if (window.innerWidth < this.breakpoint) {
+                    return;
+                }
+                if (el.classList.contains(this.classHover)) {
+                    return;
+                }
+                e.preventDefault();
+                document.querySelectorAll(this.selectorChildren).forEach(other => {
+                    other.classList.remove(this.classHover);
                 });
-                window.addEventListener('touchstart', e => {
-                    if (!el.contains(e.target as Node)) {
-                        el.classList.remove(this.classHover);
-                    }
-                });
+                el.classList.add(this.classHover);
             });
-        }
+            window.addEventListener('touchstart', e => {
+                if (el.contains(e.target as Node)) {
+                    return;
+                }
+                el.classList.remove(this.classHover);
+            });
+        });
     }
 
     headerCollapse() {

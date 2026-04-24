@@ -143,12 +143,7 @@ export default class Page {
     }
 
     videoController() {
-        let $video_trigger = document.querySelectorAll('.video-trigger');
-
-        if ($video_trigger.length == 0) {
-            return;
-        }
-        $video_trigger.forEach(el => {
+        document.querySelectorAll('.video-trigger').forEach(el => {
             el.addEventListener('click', e => {
                 let videoId = el.getAttribute('data-video-id'),
                     player = el.getAttribute('data-player'),
@@ -185,44 +180,43 @@ export default class Page {
     }
 
     blogComment() {
-        if (document.querySelector('.add-blog-comment') !== null) {
-            document.querySelectorAll<HTMLFormElement>('.add-blog-comment').forEach(el => {
-                el.addEventListener('submit', e => {
-                    fetch(el.getAttribute('action'), {
-                        method: el.getAttribute('method'),
-                        body: new URLSearchParams(new FormData(el) as unknown as URLSearchParams),
-                        cache: 'no-cache'
+        document.querySelectorAll('.add-blog-comment').forEach(el => {
+            el.addEventListener('submit', e => {
+                fetch(el.getAttribute('action'), {
+                    method: el.getAttribute('method'),
+                    body: new URLSearchParams(new FormData(el) as any),
+                    cache: 'no-cache'
+                })
+                    .then(response => {
+                        let data = response.json(),
+                            status = response.status;
+                        if (status == 200 || status == 304 || status == 400) {
+                            return data;
+                        }
+                        return {
+                            success: false,
+                            message: status
+                        };
                     })
-                        .then(response => {
-                            let data = response.json(),
-                                status = response.status;
-                            if (status == 200 || status == 304 || status == 400) {
-                                return data;
+                    .catch(error => {
+                        return {
+                            success: false,
+                            message: error
+                        };
+                    })
+                    .then(response => {
+                        let message = el.querySelector('.message');
+                        if (message !== null) {
+                            if (response.message === 'error') {
+                                message.classList.add('text-error');
                             }
-                            return {
-                                success: false,
-                                message: status
-                            };
-                        })
-                        .catch(error => {
-                            return {
-                                success: false,
-                                message: error
-                            };
-                        })
-                        .then(response => {
-                            if (el.querySelector('.message') !== null) {
-                                if (response.message === 'error') {
-                                    el.querySelector('.message').classList.add('text-error');
-                                }
-                                el.querySelector('.message').innerHTML = response.public_message;
-                            }
-                            el.reset();
-                        });
+                            message.innerHTML = response.public_message;
+                        }
+                        el.reset();
+                    });
 
-                    e.preventDefault();
-                });
+                e.preventDefault();
             });
-        }
+        });
     }
 }

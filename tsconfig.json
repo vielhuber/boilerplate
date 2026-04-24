@@ -10,5 +10,5 @@
         "allowJs": false,
         "types": ["node", "jest", "jest-puppeteer"]
     },
-    "include": ["_js/**/*.ts", "_tests/_js/**/*.ts"]
+    "include": ["_js/**/*.ts", "_tests/_js/**/*.ts", "declarations.d.ts"]
 }

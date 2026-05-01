@@ -10,13 +10,17 @@ applyTo: '**'
 - Think before acting. Read existing files before writing code.
 - Be concise in output but thorough in reasoning.
 - Prefer editing over rewriting whole files.
+- For small changes make minimally invasive edits. Do not refactor, restructure, or clean up surrounding code unless the task requires it.
+- Match comment density to the surrounding project. When in doubt, write no comment.
 - Do not re-read files you have already read unless the file may have changed.
 - Test your code before declaring done.
 - No sycophantic openers or closing fluff.
 - Keep solutions simple and direct.
 - User instructions always override this file.
 
-### use strict types
+Section headings are tagged with the language or framework they apply to: `(PHP)`, `(JS/TS)`, `(Laravel)`, `(Symfony)`. Framework-tagged rules only apply when the project actually uses that framework — do not import Laravel helpers (`Str`, `Number`, `Carbon`, Eloquent `Model`, `withProgressBar`, `ConsoleOutputHelper`, jobs) into a plain PHP project.
+
+### use strict types (PHP)
 
 Always add `declare(strict_types=1);` at the top of PHP files. For new files, add it immediately. For existing files, fix them gradually.
 
@@ -31,7 +35,7 @@ declare(strict_types=1);
 namespace App;
 ```
 
-### code comments
+### code comments (PHP, JS/TS)
 
 ```php
 // bad
@@ -44,7 +48,9 @@ namespace App;
 // this is a comment
 ```
 
-### prevent stfu operator
+### prevent stfu operator (PHP)
+
+`@` suppresses errors silently. `__x()` is a legacy in-house wrapper around `@` (null-safe access without warnings). Both hide bugs — replace with `??` / `?->` chains.
 
 ```php
 // bad
@@ -58,7 +64,9 @@ if(($foo??'') === '') {}
 if(($foo?->bar()?->baz??'') === '') {}
 ```
 
-### prevent static classes
+### prevent static classes (PHP)
+
+Avoid static methods for stateful business logic. **Exempt** (still allowed): named constructors / factories (`UserDTO::create`, `Price::fromInteger`), framework facades and helpers (`Str::of`, `Carbon::now`, `Number::format`, `Model::factory`, `Job::dispatch`), enum cases (`Environment::Produktion`), constant access (`Foo::BAR`), and exception named constructors (`MyException::partNotFound`).
 
 ```php
 // bad
@@ -68,7 +76,7 @@ Example::calculate($obj)
 (new Example($obj))->calculate()
 ```
 
-### prevent static arguments
+### prevent static arguments (PHP)
 
 ```php
 // bad
@@ -78,7 +86,7 @@ public static int $foo;
 public int $foo;
 ```
 
-### loop namings
+### loop namings (PHP, JS/TS)
 
 ```php
 $countries = ['Europe' => 'Germany'];
@@ -98,7 +106,7 @@ foreach($dataToTest as $dataToTest__value) { }
 foreach($dataToTest as $testValue) { }
 ```
 
-### prevent abbreviations
+### prevent abbreviations (PHP, JS/TS)
 
 ```php
 // bad
@@ -108,7 +116,7 @@ $model->calc()
 $model->calculate()
 ```
 
-### cases
+### cases (PHP, JS/TS)
 
 ```php
 // camel case
@@ -123,7 +131,7 @@ $variable_in_template
 Foo::first()->variable_from_db
 ```
 
-### prevent arrays
+### prevent arrays (PHP)
 
 ```php
 // bad
@@ -133,7 +141,7 @@ exampleFunction(['foo' => 'bar', 'bar' => 'baz'])
 exampleFunction(foo: 'bar', bar: 'baz')
 ```
 
-### prevent arrays (2)
+### prevent arrays — anonymous objects (PHP)
 
 ```php
 // bad
@@ -143,7 +151,7 @@ $foo = (object) ['foo' => 'bar', 'bar' => 'baz']; // anonymous object with prope
 $foo = (new Foo())->foo('bar')->bar('baz')->get(); // Foo object with properties 'foo' and 'bar'
 ```
 
-### use classes / use getters / prevent arrays
+### use classes / use getters / prevent arrays (PHP)
 
 ```php
 // bad
@@ -168,7 +176,7 @@ class MappingGetter {
 }
 ```
 
-### prevent monster classes / outsource in separate classes
+### prevent monster classes / outsource in separate classes (PHP)
 
 ```php
 // bad
@@ -179,7 +187,7 @@ $objectInBigModel->calculateSpecialValue();
 (new SpecialValueCalculator($objectInBigModel))->calculate()
 ```
 
-### use dtos
+### use dtos (PHP)
 
 - DTOs (Data Transfer Objects) are little "packages" that hold data meant to be moved around
 - the data is consistent, structured and typed
@@ -248,7 +256,7 @@ class UserDTO {
 }
 ```
 
-### use vos
+### use vos (PHP)
 
 - VOs (value objects) represent one or multiple values
 - Cannot be changed once instantiated
@@ -290,37 +298,37 @@ final readonly class Price
 }
 ```
 
-### use constants
+### use constants (PHP)
 
 ```php
 // bad
 $threshold = 42;
-$another_val = $threshold + 7;
+$anotherValue = $threshold + 7;
 
 // good
 class ExampleModel {
     public const THRESHOLD_VALUE = 40;
 }
-$another_val = ExampleModel::THRESHOLD_VALUE + 7;
+$anotherValue = ExampleModel::THRESHOLD_VALUE + 7;
 ```
 
-### function chaining
+### function chaining (PHP)
 
 ```php
 // bad
-$value = $foo->calc(save: true);
+$value = $foo->calculate(save: true);
 
 // good
-$foo->save()->calc()->getValue();
+$foo->save()->calculate()->getValue();
 
 // bad
-(new Foo(data: 'bar'))->calc()
+(new Foo(data: 'bar'))->calculate()
 
 // good
-(new Foo())->setData(data: 'bar')->calc()
+(new Foo())->setData(data: 'bar')->calculate()
 ```
 
-### use framework functions
+### use framework functions (Laravel)
 
 ```php
 // bad
@@ -338,7 +346,7 @@ $num = number_format($num, 4, '.', ',')
 $num = Number::format($num, precision: 4, locale: 'de')
 ```
 
-### prevent duplicate database calls
+### prevent duplicate database calls (Laravel)
 
 ```php
 // bad
@@ -352,46 +360,46 @@ $model = $model->get();
 $count = $model->count(); // counts in collection
 ```
 
-### output console commands
+### output console commands (Laravel/Symfony)
 
 ```php
 // bad
-echo $msg . PHP_EOL; // with newline in command
-echo $msg . ' '; // without newline in command
-echo str_pad($msg, 99, ' ', STR_PAD_RIGHT) . "\r"; // with overwrite in command
-(new \Symfony\Component\Console\Output\ConsoleOutput())->writeln($msg); // with newline in controller
-(new \Symfony\Component\Console\Output\ConsoleOutput())->info($msg); // without newline in controller
-(new \Symfony\Component\Console\Output\ConsoleOutput())->write(str_pad($msg, 99, ' ', STR_PAD_RIGHT) . "\r"); // with overwrite in controller
+echo $message . PHP_EOL; // with newline in command
+echo $message . ' '; // without newline in command
+echo str_pad($message, 99, ' ', STR_PAD_RIGHT) . "\r"; // with overwrite in command
+(new \Symfony\Component\Console\Output\ConsoleOutput())->writeln($message); // with newline in controller
+(new \Symfony\Component\Console\Output\ConsoleOutput())->info($message); // without newline in controller
+(new \Symfony\Component\Console\Output\ConsoleOutput())->write(str_pad($message, 99, ' ', STR_PAD_RIGHT) . "\r"); // with overwrite in controller
 
 // good
-$this->info($msg); // with newline in command
-$this->output->write($msg); // without newline in command
-$this->output->write(str_pad($msg, 99, ' ', STR_PAD_RIGHT) . "\r"); // with overwrite in command
-ConsoleOutputHelper::info($msg); // with newline in controller
-ConsoleOutputHelper::write($msg); // without newline in controller
-ConsoleOutputHelper::overwrite($msg); // with overwrite in controller
+$this->info($message); // with newline in command
+$this->output->write($message); // without newline in command
+$this->output->write(str_pad($message, 99, ' ', STR_PAD_RIGHT) . "\r"); // with overwrite in command
+ConsoleOutputHelper::info($message); // with newline in controller
+ConsoleOutputHelper::write($message); // without newline in controller
+ConsoleOutputHelper::overwrite($message); // with overwrite in controller
 ```
 
-### prevent too much nesting
+### prevent too much nesting (PHP, JS/TS)
 
 ```php
 // bad
-function log($msg) : void {
+function log($message): void {
   if(...) {
-    echo $msg;
+    echo $message;
   }
 }
 
 // good
-function log($msg) {
+function log($message): void {
   if(!...) {
     return;
   }
-  echo $msg;
+  echo $message;
 }
 ```
 
-### prevent too much nesting (2)
+### prevent too much nesting — flatten conditionals (PHP, JS/TS)
 
 ```php
 // bad
@@ -411,7 +419,7 @@ if($c !== true) { return 7; }
 return 42;
 ```
 
-### prevent else
+### prevent else (PHP, JS/TS)
 
 ```php
 // bad
@@ -431,7 +439,7 @@ if($bar && !$foo) {
 }
 ```
 
-### prevent too much function arguments
+### prevent too much function arguments (PHP)
 
 ```php
 // bad
@@ -442,7 +450,7 @@ foo(value: $value, save: true, cache: true, force: false, amount: 42)
 $foo->withSave()->withCache()->withoutForce()->withAmount(42)->calculate($value);
 ```
 
-### outsource long code parts
+### outsource long code parts (PHP, JS/TS)
 
 ```php
 // bad
@@ -464,7 +472,7 @@ if($this->isSpecial()) {
 }
 ```
 
-### use carbon instead of strings
+### use carbon instead of strings (Laravel)
 
 ```php
 // bad
@@ -474,7 +482,7 @@ date('Y')-10
 Carbon::now()->subYears(10)->year
 ```
 
-### use "final" keyword
+### use "final" keyword (PHP)
 
 ```php
 // bad
@@ -484,7 +492,7 @@ class NonDerivativeClass {}
 final class NonDerivativeClass {}
 ```
 
-### use php type hinting
+### use php type hinting (PHP)
 
 ```php
 // bad
@@ -506,7 +514,7 @@ public function foo(): void { die(); }
 public function foo(): never { die(); }
 ```
 
-### use jobs to dispatch long running tasks
+### use jobs to dispatch long running tasks (Laravel)
 
 ```php
 // bad
@@ -516,7 +524,7 @@ longRunningTask();
 CalculateLongRunningTaskQueue::dispatch();
 ```
 
-### single line comments
+### single line comments (PHP, JS/TS)
 
 This applies to standalone, sentence-like comments (e.g., migration notices, section headers). For inline code explanations, see `code comments`.
 
@@ -531,7 +539,7 @@ This applies to standalone, sentence-like comments (e.g., migration notices, sec
 // This migration should not run.
 ```
 
-### multiline comments
+### multiline comments (PHP, JS/TS)
 
 ```php
 // bad
@@ -554,7 +562,7 @@ comment
  */
 ```
 
-### comment functions (e.g. using copilot)
+### comment functions (e.g. using copilot) (PHP)
 
 ```php
 // bad
@@ -569,7 +577,7 @@ public function foo(): ?float {}
 public function foo(): ?float {}
 ```
 
-### phpunit tests: the expected value should come first as an argument
+### phpunit tests: the expected value should come first as an argument (PHPUnit)
 
 ```php
 // bad
@@ -579,7 +587,7 @@ $this->assertSame($foo, 'bar');
 $this->assertSame('bar', $foo);
 ```
 
-### always write tests (tdd), use factories
+### always write tests (tdd), use factories (Laravel/PHPUnit)
 
 ```php
 // good
@@ -591,21 +599,21 @@ $this->assertEquals(30, Model::whereBornAfter(1980)->count());
 $this->assertEquals(20, Model::whereBornAfter(1990)->count());
 ```
 
-### always catch the most specific exception
+### always catch the most specific exception (PHP)
 
 ```php
 // bad
 catch(\Throwable $e) {
-    print_r($e->getMessage());
+    Log::error($e->getMessage());
 }
 
 // good
 catch(\PDOException $e) {
-    print_r($e->getMessage());
+    Log::error($e->getMessage());
 }
 ```
 
-### use enums
+### use enums (PHP)
 
 ```php
 // bad
@@ -629,7 +637,7 @@ enum Environment: string
 echo Environment::Produktion->value; // "prod"
 ```
 
-### use progress bars in commands
+### use progress bars in commands (Laravel)
 
 ```php
 // bad
@@ -645,15 +653,17 @@ $this->withProgressBar($data, function ($dataValue) {
 });
 ```
 
-### extract exceptions
+### extract exceptions (PHP)
 
 ```php
 // bad
-throw new\Exception('Zeitraum ungültig.');
+throw new \Exception('Zeitraum ungültig.');
 
 // good
-throw ExampleException::partNotFound();
+throw ExampleException::invalidDateRange();
 // Exceptions/ExampleException.php
+<?php
+declare(strict_types=1);
 namespace App\Exceptions;
 use Exception;
 class ExampleException extends Exception {
@@ -663,12 +673,12 @@ class ExampleException extends Exception {
 }
 ```
 
-### move logic from controller to services
+### move logic from controller to services (PHP, Laravel)
 
 ```php
 // bad
 class ExampleController {
-    test() {
+    public function test(): void {
         $this->fun1();
         $this->fun2();
         $this->fun3();
@@ -678,12 +688,11 @@ class ExampleController {
 
 // good
 class ExampleController {
-    public function __construct(ExampleService1 $exampleService1, ExampleService2 $exampleService2)
-    {
-        $this->exampleService1 = $exampleService1;
-        $this->exampleService2 = $exampleService2;
-    }
-    test() {
+    public function __construct(
+        private ExampleService1 $exampleService1,
+        private ExampleService2 $exampleService2
+    ) {}
+    public function test(): void {
         $this->exampleService1->fun1();
         $this->exampleService1->fun2();
         $this->exampleService2->fun3();
@@ -691,16 +700,18 @@ class ExampleController {
     }
 }
 class ExampleService1 {
-    fun1() {}
-    fun2() {}
+    public function fun1(): void {}
+    public function fun2(): void {}
 }
 class ExampleService2 {
-    fun3() {}
-    fun4() {}
+    public function fun3(): void {}
+    public function fun4(): void {}
 }
 ```
 
-### uppercase immutable variables
+### uppercase immutable variables (JS/TS)
+
+Convention only: name class-level static literals/configuration values in `UPPER_SNAKE_CASE` so they read as constants. JS does not enforce immutability — this is purely about readability.
 
 ```js
 // bad
@@ -714,7 +725,7 @@ export default class ExampleClass {
 }
 ```
 
-### extract selectors & split up functions
+### extract selectors & split up functions (JS/TS)
 
 ```js
 // bad
@@ -738,8 +749,8 @@ export default class Example {
         this.setupExportLinks();
     }
     bindSelectors() {
-        this.$selector1 = document.querySelectorAll(getStudbook.DATE_SELECTORS.BEGIN);
-        this.$selector2 = document.querySelector(getStudbook.DATE_SELECTORS.END);
+        this.$selector1 = document.querySelectorAll(Example.SELECTOR_1);
+        this.$selector2 = document.querySelector(Example.SELECTOR_2);
     }
     setupExportLinks() {
         this.$selector1.forEach($link => this.setupLink($link));
@@ -750,8 +761,8 @@ export default class Example {
         $link.addEventListener('click', e => this.handleClick(e, $link));
     }
     handleClick(e, $link) {
-        if (!this.validateDateInputs()) { $this.showValidationError(); }
-        this.updateExportUrl($link);
+        if (!this.validateDateInputs()) { this.showValidationError(); }
+        this.updateUrl($link);
     }
     validateDateInputs() {
         return this.$selector2.value !== '';
@@ -765,7 +776,7 @@ export default class Example {
 }
 ```
 
-### prefix dom elements with dollar sign
+### prefix dom elements with dollar sign (JS/TS)
 
 ```js
 // bad
@@ -775,7 +786,7 @@ let el = document.querySelector('.foo');
 let $el = document.querySelector('.foo');
 ```
 
-### move logic (ids/labels) from view to controller
+### move logic (ids/labels) from view to controller (Laravel/Blade)
 
 ```php
 // bad

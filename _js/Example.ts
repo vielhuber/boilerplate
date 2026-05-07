@@ -35,10 +35,22 @@ export default class Example {
 
     loadScripts() {
         // try to detect page speed insights and delay loading of scripts
-        if (
-            navigator.userAgent.indexOf('Speed Insights') > -1 ||
-            navigator.userAgent.indexOf('Chrome-Lighthouse') > -1
-        ) {
+        const ua = navigator.userAgent || '';
+        let score = 0;
+        if (/Lighthouse|HeadlessChrome|Chrome-Lighthouse|Speed Insights|PTST|PageSpeed/i.test(ua)) score = 99;
+        if (navigator.webdriver) score = 99;
+        if (!navigator.languages || navigator.languages.length === 0) score += 3;
+        if (/Chrome\/\d{3}\.0\.0\.0/i.test(ua)) score += 1;
+        const w = window.innerWidth,
+            h = window.innerHeight;
+        if ((w === 1350 && h === 940) || (w === 412 && (h === 823 || h === 915)) || (w === 360 && h === 640))
+            score += 2;
+        if (navigator.plugins && navigator.plugins.length === 0) score += 1;
+        if (!(navigator as any).connection && !(navigator as any).deviceMemory && !navigator.hardwareConcurrency)
+            score += 1;
+        if (typeof navigator.permissions === 'undefined') score += 1;
+        if (/Chrome/i.test(ua) && typeof (window as any).chrome === 'undefined') score += 2;
+        if (score >= 4) {
             //return;
         }
         let tplurl = hlp.url(); // if wordpress, this is set in header

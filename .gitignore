@@ -15,6 +15,7 @@ __image_snapshots__
 *.js.map
 *.tmp-browserify*
 /composer.lock
+/patches.lock.json
 desktop.ini
 .DS_Store
 /package-lock.json

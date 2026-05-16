@@ -48,6 +48,28 @@ namespace App;
 // this is a comment
 ```
 
+### comment density (PHP, JS/TS)
+
+In new code the default is **no comments**. Only add one when the *why* is non-obvious: a hidden constraint, a subtle invariant, a workaround for a specific bug, behavior that would surprise a reader. What the code DOES is already explained by well-named identifiers.
+
+```php
+// bad — describes what the code does
+// fetch user from db
+$user = User::find($id);
+
+// bad — references the current task or caller (belongs in the PR description, rots in code)
+// added for issue #123
+// used by ExampleController
+$value = calculate();
+
+// good — no comment
+$user = User::find($id);
+
+// good — non-obvious consequence
+// vendor lib returns false when timezone is set but date predates it
+$delta = $lib->diff($a, $b) ?: 0;
+```
+
 ### prevent stfu operator (PHP)
 
 `@` suppresses errors silently. `__x()` is a legacy in-house wrapper around `@` (null-safe access without warnings). Both hide bugs — replace with `??` / `?->` chains.
@@ -450,6 +472,29 @@ foo(value: $value, save: true, cache: true, force: false, amount: 42)
 $foo->withSave()->withCache()->withoutForce()->withAmount(42)->calculate($value);
 ```
 
+### prevent premature extraction (PHP, JS/TS)
+
+In newly written code: when a function or method is called from exactly **one** place, do NOT extract it. Keep it inline until a second call site appears — only then is the abstraction need concrete. Premature extraction creates indirection without benefit and makes the code harder to read.
+
+```php
+// bad — helper is only called once
+private function isWeekend(Carbon $date): bool {
+    return $date->dayOfWeek === 0 || $date->dayOfWeek === 6;
+}
+public function notify(Carbon $date): void {
+    if ($this->isWeekend($date)) { return; }
+    /* ... */
+}
+
+// good — inline, because only used once
+public function notify(Carbon $date): void {
+    if ($date->dayOfWeek === 0 || $date->dayOfWeek === 6) { return; }
+    /* ... */
+}
+```
+
+When the second call site appears: extract it then. The counterpart for *existing* code with a real code smell (long, deeply nested logic, see next rule) still warrants extraction — this rule targets new code with a clearly singular caller.
+
 ### outsource long code parts (PHP, JS/TS)
 
 ```php
@@ -708,6 +753,22 @@ class ExampleService2 {
     public function fun4(): void {}
 }
 ```
+
+### prefer let over const (JS/TS)
+
+Use `let` for all variable declarations. Avoid `const` even for values that are not reassigned. Pure stylistic preference — `const` only protects against rebinding, never against object/array mutation, so it gives the false impression of immutability. `let` is consistent and easier to refactor.
+
+```js
+// bad
+const items = [1, 2, 3];
+const config = { timeout: 30 };
+
+// good
+let items = [1, 2, 3];
+let config = { timeout: 30 };
+```
+
+Exceptions: `as const` (TypeScript literal type narrowing) and `const enum` stay as they are — those are type-system constructs, not variable declarations.
 
 ### uppercase immutable variables (JS/TS)
 

@@ -12,6 +12,8 @@ applyTo: '**'
 - Prefer editing over rewriting whole files.
 - For small changes make minimally invasive edits. Do not refactor, restructure, or clean up surrounding code unless the task requires it.
 - Match comment density to the surrounding project. When in doubt, write no comment.
+- Default to no comments in new code — only add one when the *why* is non-obvious.
+- When writing new code, only extract a function or method once it is called from at least two places.
 - Do not re-read files you have already read unless the file may have changed.
 - Test your code before declaring done.
 - No sycophantic openers or closing fluff.

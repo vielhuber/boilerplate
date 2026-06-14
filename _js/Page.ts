@@ -153,6 +153,10 @@ export default class Page {
                     muted = el.getAttribute('data-muted'),
                     playerHtml = '';
 
+                // confine the video id to the charset real YouTube/Vimeo ids use,
+                // so it cannot break out of the iframe src / inject markup
+                videoId = (videoId || '').replace(/[^A-Za-z0-9_-]/g, '');
+
                 //youtube player
                 if (player === 'youtube') {
                     playerHtml += '<div class="embed-video">';
@@ -214,7 +218,7 @@ export default class Page {
                                 if (response.message === 'error') {
                                     message.classList.add('text-error');
                                 }
-                                message.innerHTML = response.public_message;
+                                message.textContent = response.public_message;
                             }
                             el.reset();
                         });

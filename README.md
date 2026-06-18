@@ -11,7 +11,6 @@ this is a boilerplate starter kit for rapid web development. it is based on [npm
 
 - [Vite](https://vite.dev)
 - [TypeScript](https://www.typescriptlang.org)
-- [Babel](https://babeljs.io)
 - [Sass](http://sass-lang.com) (basic pipeline: sourcemaps, autoprefixing, file inlining)
 - [Tailwind CSS](https://tailwindcss.com/) (tailwind pipeline: PostCSS, no Sass)
 - [Browsersync](https://www.browsersync.io)
@@ -32,9 +31,7 @@ this is a boilerplate starter kit for rapid web development. it is based on [npm
 - extracting of critical css for [above-the-fold-content](https://developers.google.com/speed/docs/insights/PrioritizeVisibleContent)
 - deferred loading of google analytics
 - import css files in javascript
-- auto transform es6 dependencies
 - google page speed 100/100 ready
-- full ie11 support
 - zero vulnerabilities on `npm audit`
 
 ## installation

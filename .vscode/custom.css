@@ -17,18 +17,24 @@
   font-family: var(--custom-ui-font) !important;
 }
 
+:root {
+  --editor-bg-image: url("https://vielhuber.de/wp-content/themes/vielhuber/_assets/code-matrix.gif");
+  --editor-bg-opacity: 0.25;
+}
+
 [id='workbench.parts.editor'] .split-view-view .editor-container .overflow-guard > .monaco-scrollable-element > .monaco-editor-background {
   background: none !important;
 }
 
-[id='workbench.parts.editor'] .split-view-view .editor-instance > .monaco-editor > .overflow-guard > .monaco-scrollable-element::before {
+[id='workbench.parts.editor'] .split-view-view .editor-instance > .monaco-editor > .overflow-guard > .monaco-scrollable-element::before,
+[id='workbench.parts.editor'] .split-view-view .editor-instance .monaco-diff-editor .monaco-editor > .overflow-guard > .monaco-scrollable-element::before {
   content: '';
   position: absolute;
   width: 100%;
   height: 100%;
-  background-image: url("vscode-file://vscode-app/C:/Users/David/OneDrive%20-%20vielhuber.de/DOCS/VIELHUBER.DE/BACKGROUNDS/code-matrix.gif");
+  background-image: var(--editor-bg-image);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  opacity: 0.25;
+  opacity: var(--editor-bg-opacity);
 }

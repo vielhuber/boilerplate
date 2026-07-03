@@ -1,0 +1,34 @@
+:root {
+  --custom-ui-font: "Comic Sans MS", "Inter", "Segoe UI", "Noto Sans", sans-serif;
+}
+
+.monaco-workbench,
+.monaco-workbench .part,
+.monaco-workbench .monaco-list,
+.monaco-workbench .monaco-tree,
+.monaco-workbench .monaco-icon-label,
+.monaco-workbench .tabs-container,
+.monaco-workbench .tab,
+.monaco-workbench .quick-input-widget,
+.monaco-workbench .pane-header,
+.monaco-workbench .statusbar,
+.monaco-workbench .sidebar,
+.monaco-workbench .activitybar {
+  font-family: var(--custom-ui-font) !important;
+}
+
+[id='workbench.parts.editor'] .split-view-view .editor-container .overflow-guard > .monaco-scrollable-element > .monaco-editor-background {
+  background: none !important;
+}
+
+[id='workbench.parts.editor'] .split-view-view .editor-instance > .monaco-editor > .overflow-guard > .monaco-scrollable-element::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: url("vscode-file://vscode-app/C:/Users/David/OneDrive%20-%20vielhuber.de/DOCS/VIELHUBER.DE/BACKGROUNDS/code-matrix.gif");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.25;
+}

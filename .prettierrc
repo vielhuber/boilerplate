@@ -1,6 +1,5 @@
 {
     "singleQuote": true,
-    "editorconfig": false,
     "overrides": [
         {
             "files": ["**/*.css", "**/*.scss"],
@@ -12,7 +11,7 @@
             "files": ["**/*.php"],
             "options": {
                 "trailingCommaPHP": false,
-                "phpVersion": "8.2",
+                "phpVersion": "8.5",
                 "plugins": ["@prettier/plugin-php"]
             }
         },

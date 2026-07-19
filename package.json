@@ -144,7 +144,7 @@
     },
     "private": true,
     "name": "boilerplate",
-    "version": "42.0.0",
+    "version": "1.6.4",
     "description": "",
     "main": "$npm_package_config_build_folder/bundle.js",
     "author": "David <david@vielhuber.de> (https://vielhuber.de)",

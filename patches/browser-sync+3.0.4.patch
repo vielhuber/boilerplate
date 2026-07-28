@@ -1,0 +1,21 @@
+diff --git a/node_modules/browser-sync/dist/server/utils.js b/node_modules/browser-sync/dist/server/utils.js
+--- a/node_modules/browser-sync/dist/server/utils.js
++++ b/node_modules/browser-sync/dist/server/utils.js
+@@ -50,7 +50,7 @@ function getCert(options) {
+     return fs.readFileSync(options.getIn(["https", "cert"]) || join(certPath, "server.crt"));
+ }
+ function getHttpsServerDefaults(options) {
+-    return fromJS({
++    return Map({
+         key: getKey(options),
+         cert: getCert(options),
+         ca: getCa(options),
+@@ -59,7 +59,7 @@ function getHttpsServerDefaults(options) {
+     });
+ }
+ function getPFXDefaults(options) {
+-    return fromJS({
++    return Map({
+         pfx: fs.readFileSync(options.getIn(["https", "pfx"]))
+     });
+ }

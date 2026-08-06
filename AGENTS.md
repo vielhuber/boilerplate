@@ -73,6 +73,47 @@ $user = User::find($id);
 $delta = $lib->diff($a, $b) ?: 0;
 ```
 
+### docblocks (PHP)
+
+- Every new function gets a docblock. This is the deliberate exception to `comment density`.
+- One line for the description, starting uppercase and ending with a dot.
+- The description has to say something the signature does not. If it can only restate the function name, the name is the problem — fix the name, don't pad the sentence.
+- No `@param` / `@return`: with proper type hints they merely repeat the signature and rot as soon as it changes. Add a tag only where the native type cannot carry the information — element types of an `array`, a narrower type behind `mixed`, or `@throws`.
+
+```php
+// bad — name as a heading, second prose block, tags that repeat the signature
+/**
+ * Calculate invoice sums
+ *
+ * Calculates the sums of an invoice.
+ *
+ * @param Invoice $invoice the invoice
+ * @param bool $excludePositive whether positive ones are excluded
+ * @return float the sum
+ */
+public function calculateInvoiceSums(Invoice $invoice, bool $excludePositive): float {}
+
+// bad — restates the name and adds nothing
+/**
+ * Calculate the invoice sums.
+ */
+public function calculateInvoiceSums(Invoice $invoice, bool $excludePositive): float {}
+
+// good
+/**
+ * Calculate the invoice sums (exclude positive ones).
+ */
+public function calculateInvoiceSums(Invoice $invoice, bool $excludePositive): float {}
+
+// good — the tag carries what the signature cannot express
+/**
+ * Group the open positions by due month.
+ *
+ * @return array<string, InvoicePosition[]>
+ */
+public function groupOpenPositions(Invoice $invoice): array {}
+```
+
 ### prevent stfu operator (PHP)
 
 `@` suppresses errors silently. `__x()` is a legacy in-house wrapper around `@` (null-safe access without warnings). Both hide bugs — replace with `??` / `?->` chains.
@@ -608,21 +649,6 @@ comment
  * a multiline
  * comment.
  */
-```
-
-### comment functions (e.g. using copilot) (PHP)
-
-```php
-// bad
-public function foo(): ?float {}
-
-// good
-/**
- * Calculate the value for our example.
- *
- * @return float|null
- */
-public function foo(): ?float {}
 ```
 
 ### phpunit tests: the expected value should come first as an argument (PHPUnit)

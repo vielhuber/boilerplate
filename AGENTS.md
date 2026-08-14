@@ -9,14 +9,27 @@ applyTo: '**'
 - When answering questions about frameworks, libraries, or APIs, use Context7 to retrieve current documentation rather than relying on training data.
 - If code changes make sense, always make them immediately. Don't ask again.
 - Think before acting. Read existing files before writing code.
+- Surface material assumptions, ambiguities, inconsistencies, and tradeoffs before implementation. If an ambiguity would materially change the result, stop and ask; otherwise state the reasonable assumption and proceed.
+- For non-trivial tasks, define concise, verifiable success criteria and a brief plan with a check for each step. Skip formal planning when the change is obvious and small.
 - Be concise in output but thorough in reasoning.
 - Prefer editing over rewriting whole files.
+- Before changing project code, check whether the underlying issue originates in a locally available dependency maintained by the same owner. If so, fix the root cause directly in that owned library (for example, `/var/www/stringhelper`) instead of adding a workaround to the consuming project. Do not modify third-party dependencies.
+- Prefer existing dependencies. Ask before adding a new production dependency unless the user explicitly requested it. Never hand-edit generated artifacts or lockfiles; update them with the project's canonical tool.
 - For small changes make minimally invasive edits. Do not refactor, restructure, or clean up surrounding code unless the task requires it.
+- Implement only the requested behavior. Do not add speculative features, configurability, abstractions, fallbacks, or handling for states excluded by established invariants.
+- Follow the existing architecture, naming, formatting, and error-handling patterns unless the task requires a new pattern.
+- Remove only imports, variables, functions, files, and other dead code made obsolete by your changes. Leave unrelated pre-existing dead code untouched and mention it when relevant.
+- Preserve existing uncommitted changes; treat them as user-owned and never overwrite or revert them.
 - Match comment density to the surrounding project. When in doubt, write no comment.
 - Default to no comments in new code — only add one when the *why* is non-obvious.
 - When writing new code, only extract a function or method once it is called from at least two places.
 - Do not re-read files you have already read unless the file may have changed.
-- Test your code before declaring done.
+- For bugs, reproduce the failure with a test or minimal check before fixing it when practical. For refactors, verify behavior before and after.
+- Use the repository's canonical build, lint, format, type-check, and test commands. Run the narrowest relevant checks first, then broader checks according to risk.
+- Never make checks pass by deleting or weakening tests, suppressing errors, weakening validation, or hard-coding expected output. Update tests only when the requested behavior changes.
+- Before finishing, inspect the actual diff for scope, accidental edits, generated artifacts, secrets, and debug code; do not rely on memory.
+- In the final response, state what changed, what was verified, and anything that could not be verified. Never claim that a check passed unless it was run.
+- Never expose, log, hard-code, or commit secrets, credentials, tokens, or private keys.
 - No sycophantic openers or closing fluff.
 - Keep solutions simple and direct.
 - User instructions always override this file.

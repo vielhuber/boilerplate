@@ -89,6 +89,7 @@ $delta = $lib->diff($a, $b) ?: 0;
 ### docblocks (PHP)
 
 - Every new function gets a docblock. This is the deliberate exception to `comment density`.
+- Exception: Don't add docblocks if all other functions in the same file don't have a docblock (respect the code style)
 - One line for the description, starting uppercase and ending with a dot.
 - The description has to say something the signature does not. If it can only restate the function name, the name is the problem — fix the name, don't pad the sentence.
 - No `@param` / `@return`: with proper type hints they merely repeat the signature and rot as soon as it changes. Add a tag only where the native type cannot carry the information — element types of an `array`, a narrower type behind `mixed`, or `@throws`.

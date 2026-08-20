@@ -27,7 +27,7 @@ export default class Page {
     static async loadOnce() {}
 
     addTailwindCDN() {
-        if (window.location.host.includes('local') || window.location.host.includes('close2dev')) {
+        if (window.location.host.includes('local') || window.location.host.includes('rebuhleiv.xyz')) {
             let script = document.createElement('script');
             script.src = 'https://cdn.tailwindcss.com';
             document.head.appendChild(script);

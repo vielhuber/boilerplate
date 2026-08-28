@@ -10,6 +10,7 @@ applyTo: '**'
 - If code changes make sense, always make them immediately. Don't ask again.
 - Think before acting. Read existing files before writing code.
 - Surface material assumptions, ambiguities, inconsistencies, and tradeoffs before implementation. If an ambiguity would materially change the result, stop and ask; otherwise state the reasonable assumption and proceed.
+- If a simpler approach than the requested one exists, name it before implementing and push back when the request adds avoidable complexity.
 - For non-trivial tasks, define concise, verifiable success criteria and a brief plan with a check for each step. Skip formal planning when the change is obvious and small.
 - Be concise in output but thorough in reasoning.
 - Prefer editing over rewriting whole files.
@@ -17,6 +18,7 @@ applyTo: '**'
 - Prefer existing dependencies. Ask before adding a new production dependency unless the user explicitly requested it. Never hand-edit generated artifacts or lockfiles; update them with the project's canonical tool.
 - For small changes make minimally invasive edits. Do not refactor, restructure, or clean up surrounding code unless the task requires it.
 - Implement only the requested behavior. Do not add speculative features, configurability, abstractions, fallbacks, or handling for states excluded by established invariants.
+- Judge your own change by its volume: if it is considerably longer than the problem requires, rewrite it shorter before finishing.
 - Follow the existing architecture, naming, formatting, and error-handling patterns unless the task requires a new pattern.
 - Remove only imports, variables, functions, files, and other dead code made obsolete by your changes. Leave unrelated pre-existing dead code untouched and mention it when relevant.
 - Preserve existing uncommitted changes; treat them as user-owned and never overwrite or revert them.

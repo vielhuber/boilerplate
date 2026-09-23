@@ -3,7 +3,7 @@ import { defineConfig } from 'vite';
 export default defineConfig({
     build: {
         outDir: '_public',
-        rollupOptions: {
+        rolldownOptions: {
             input: './_js/script.ts',
             output: {
                 entryFileNames: 'bundle.js',

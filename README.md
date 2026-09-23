@@ -46,17 +46,18 @@ rm -r boilerplate-main main.zip README.md
 cp .env.example .env
 nvm use --lts
 npm install
+npx playwright install --with-deps --only-shell chromium
 ```
 
 ## usage
 
-| `npm run`                        | pipeline | watch | browsersync | delete | copy | css | js | html | tests |
-| ------------------------------ | -------- | :---: | :---------: | :----: | :--: | :-: | :-: | :--: | :---: |
-| `dev:slim:tailwind`    | tailwind | ✓     | ✓           |        |      | ✓   | ✓   |      |       |
-| `dev:full:tailwind`    | tailwind | ✓     | ✓           |        | ✓    | ✓   | ✓   | ✓    | ✓     |
-| `prod:slim:tailwind`   | tailwind |       |             |        |      | ✓   | ✓   |      |       |
-| `prod:full:tailwind`   | tailwind |       |             | ✓      | ✓    | ✓   | ✓   | ✓    |       |
-| `dev:slim:basic`       | basic    | ✓     | ✓           |        |      | ✓   | ✓   |      |       |
-| `dev:full:basic`       | basic    | ✓     | ✓           |        | ✓    | ✓   | ✓   | ✓    | ✓     |
-| `prod:slim:basic`      | basic    |       |             |        |      | ✓   | ✓   |      |       |
-| `prod:full:basic`      | basic    |       |             | ✓      | ✓    | ✓   | ✓   | ✓    |       |
+| `npm run`            | pipeline | watch | browsersync | delete | copy | css | js  | html | tests |
+| -------------------- | -------- | :---: | :---------: | :----: | :--: | :-: | :-: | :--: | :---: |
+| `dev:slim:tailwind`  | tailwind |   ✓   |      ✓      |        |      |  ✓  |  ✓  |      |       |
+| `dev:full:tailwind`  | tailwind |   ✓   |      ✓      |        |  ✓   |  ✓  |  ✓  |  ✓   |   ✓   |
+| `prod:slim:tailwind` | tailwind |       |             |        |      |  ✓  |  ✓  |      |       |
+| `prod:full:tailwind` | tailwind |       |             |   ✓    |  ✓   |  ✓  |  ✓  |  ✓   |       |
+| `dev:slim:basic`     | basic    |   ✓   |      ✓      |        |      |  ✓  |  ✓  |      |       |
+| `dev:full:basic`     | basic    |   ✓   |      ✓      |        |  ✓   |  ✓  |  ✓  |  ✓   |   ✓   |
+| `prod:slim:basic`    | basic    |       |             |        |      |  ✓  |  ✓  |      |       |
+| `prod:full:basic`    | basic    |       |             |   ✓    |  ✓   |  ✓  |  ✓  |  ✓   |       |
